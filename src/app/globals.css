@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/*
+ * Sistema de diseño VISENTRAC: El Rotulado de Ensayo.
+ *
+ * Origen: la probeta de concreto, rotulada a mano y rota a los 28 días para
+ * saber si el concreto sirve. Cada bloque del sitio se presenta como muestra
+ * identificada: filete, identificador, contenido y su valor con unidad.
+ *
+ * Contrato de dirección: .impeccable/surfaces/src-app-page-tsx.md
+ *
+ * Escena física que decide el tema: obra altoandina, pantalla al sol directo,
+ * una mano libre. De ahí el fondo claro y los contrastes verificados por encima
+ * de AA para texto normal, no para texto grande.
+ */
+
+@theme {
+  /* ---- Color -------------------------------------------------------------
+   * Estrategia: Committed. El azul profundo carga regiones enteras del
+   * viewport, no acentos sueltos. El naranja de alta visibilidad tiene un solo
+   * rol asignado: el valor medido y el filete de la muestra destacada. Ningún
+   * color aparece sin función.
+   */
+
+  /* Azul profundo. `marca-900` es el principal: el tono que carga los bloques. */
+  --color-marca-50: #eff3fb;
+  --color-marca-100: #dde6f4;
+  --color-marca-200: #bccce8;
+  --color-marca-300: #8ba7d6;
+  --color-marca-400: #5c80c4;
+  --color-marca-500: #2c63e0;
+  --color-marca-600: #1a4bc4;
+  --color-marca-700: #163f9e;
+  --color-marca-800: #123a9e;
+  --color-marca-900: #0e2a6e;
+  --color-marca-950: #0b1f52;
+
+  /* Naranja de chaleco de alta visibilidad. Rol único: el valor medido.
+   *
+   * Reglas de uso verificadas por contraste, no negociables:
+   *   senal-500 como SUPERFICIE lleva tinta encima (6.25), nunca blanco (2.86).
+   *   senal-500 como TEXTO solo sobre azul-900 (4.67); sobre fondo claro falla
+   *   (2.59) y en su lugar va senal-700 (4.92).
+   */
+  --color-senal-50: #fff4ec;
+  --color-senal-100: #ffe0c7;
+  --color-senal-200: #ffc79b;
+  --color-senal-300: #ffae70;
+  --color-senal-400: #ff8a2b;
+  --color-senal-500: #ff6b00;
+  --color-senal-600: #e05500;
+  --color-senal-700: #b84400;
+  --color-senal-800: #993800;
+  --color-senal-900: #7a2e00;
+
+  /* Neutros de superficie de trabajo. Frío, nunca crema. */
+  --color-concreto-50: #f2f4f5;
+  --color-concreto-100: #e8ecee;
+  --color-concreto-200: #d8dde0;
+  --color-concreto-300: #b9c0c5;
+  --color-concreto-400: #8a9299;
+  --color-concreto-500: #6b747b;
+  --color-concreto-600: #565f66;
+  --color-concreto-700: #3c444a;
+  --color-concreto-800: #272d32;
+  --color-concreto-900: #1b2024;
+  --color-concreto-950: #14181b;
+
+  /* ---- Tipografía --------------------------------------------------------
+   * Archivo: grotesca de rotulación, legible en cuerpo pequeño y con carácter
+   * en display. Martian Mono: solo identificadores y valores medidos, que es
+   * medida real, no disfraz de "técnico".
+   */
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-medida: var(--font-martian), ui-monospace, monospace;
+
+  /* ---- Rejilla y ritmo ---------------------------------------------------
+   * Línea base de 4px. Toda separación vertical es múltiplo.
+   */
+  --spacing-header: 5rem;
+
+  /* ---- Forma -------------------------------------------------------------
+   * Un solo sistema: la etiqueta de muestra es recta. 2px es el único radio
+   * que existe, y solo en controles.
+   */
+  --radius-muestra: 2px;
+
+  /* ---- Profundidad -------------------------------------------------------
+   * La separación se hace con filete de 1px, no con sombra. La sombra queda
+   * reservada a lo que de verdad flota sobre la página, con desplazamiento y
+   * desenfoque reales.
+   */
+  --shadow-flotante: 0 6px 20px -4px rgb(20 24 27 / 0.28);
+  --shadow-elevado: 0 2px 8px -2px rgb(20 24 27 / 0.16);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--spacing-header);
+  }
+
+  body {
+    background-color: var(--color-concreto-50);
+    color: var(--color-concreto-950);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * Superficies que pinta el navegador. Sin tematizar delatan una página
+   * ensamblada en lugar de construida.
+   */
+  ::selection {
+    background-color: var(--color-senal-500);
+    color: var(--color-concreto-950);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-senal-500);
+    outline-offset: 2px;
+  }
+
+  html {
+    scrollbar-color: var(--color-concreto-300) var(--color-concreto-100);
+    caret-color: var(--color-marca-900);
+    accent-color: var(--color-marca-900);
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: from-font;
+  }
+
+  /* Las cifras se comparan en columna: nunca bailan de ancho. */
+  .font-medida,
+  [data-medida] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
