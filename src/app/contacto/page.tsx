@@ -23,7 +23,10 @@ export default function Contacto() {
 
   return (
     <main id="contenido" className="flex-1">
-      <section className="bg-marca-900 py-16 text-white sm:py-20">
+      {/* Modo Operate: sin primer viewport a pantalla completa. El visitante ya
+          decidió consultar y una portada entera lo alejaría de la tarea. El
+          padding superior compensa la cabecera fija. */}
+      <section className="bg-marca-900 pt-36 pb-16 text-white sm:pt-40 sm:pb-20">
         <Contenedor medida="ancho">
           <h1 className="max-w-[18ch] text-4xl font-bold tracking-[-0.03em] text-balance sm:text-5xl">
             Contáctenos

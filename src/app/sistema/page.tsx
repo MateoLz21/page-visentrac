@@ -26,7 +26,7 @@ const paleta = [
  */
 export default function Sistema() {
   return (
-    <main className="flex-1">
+    <main className="flex-1 pt-20">
       <Seccion ritmo="compacto">
         <TituloSeccion bajada="Revisión interna de tokens y primitivas. Esta ruta no se indexa y no forma parte del sitio publicado.">
           El Rotulado de Ensayo

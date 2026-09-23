@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Phone, EnvelopeSimple, MapPin } from "@phosphor-icons/react/dist/ssr";
 import { navegacion, empresa, contacto } from "@/content/empresa";
 import { Contenedor } from "@/components/ui/contenedor";
+import { Logotipo } from "@/components/ui/logotipo";
 
 /** Pie común a las cuatro páginas. */
 export function Pie() {
@@ -12,10 +13,8 @@ export function Pie() {
       <Contenedor medida="ancho">
         <div className="grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1.2fr]">
           <div>
-            <p className="text-2xl font-bold tracking-tight text-white">
-              {empresa.nombreCorto}
-            </p>
-            <p data-medida className="mt-1 font-medida text-[0.65rem] uppercase text-concreto-400">
+            <Logotipo version="blanco" alto={52} />
+            <p data-medida className="mt-4 font-medida text-[0.65rem] uppercase text-concreto-400">
               {empresa.nombre} · desde {empresa.desde}
             </p>
             <p className="mt-5 max-w-[42ch] text-base leading-relaxed text-concreto-300">

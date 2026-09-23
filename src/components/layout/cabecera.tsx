@@ -3,46 +3,56 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useScroll, useMotionValueEvent } from "motion/react";
 import { List, X, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { navegacion, empresa, contacto } from "@/content/empresa";
 import { whatsappUrl } from "@/lib/site";
 import { Contenedor } from "@/components/ui/contenedor";
+import { Logotipo } from "@/components/ui/logotipo";
 
 /**
- * Cabecera fija del sitio.
+ * Cabecera superpuesta al hero.
  *
- * Una sola línea en escritorio y 80px de alto, con la ruta activa marcada por
- * filete inferior en naranja. El menú móvil es un panel desplegable, no un
- * modal: no hay nada que proteger detrás de él.
+ * Arranca sin fondo sobre la imagen a pantalla completa y gana fondo sólido y
+ * filete al pasar el primer viewport. El umbral se lee con `useMotionValueEvent`
+ * y no con estado por cada píxel: solo se re-renderiza cuando cruza el límite.
  *
  * TODO(cliente): sustituir el logotipo compuesto por el SVG real cuando llegue
  * el vectorial. Ver docs/plan-desarrollo.md, sección 3.
  */
 export function Cabecera() {
   const [abierto, setAbierto] = useState(false);
+  const [solida, setSolida] = useState(false);
   const rutaActual = usePathname();
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const deberia = y > 80;
+    setSolida((actual) => (actual === deberia ? actual : deberia));
+  });
 
   const esActiva = (href: string) =>
     href === "/" ? rutaActual === "/" : rutaActual.startsWith(href);
 
+  /* Sobre el hero el contenido va en blanco; una vez sólida, en tinta. */
+  const sobreFoto = !solida && !abierto;
+
   return (
-    <header className="sticky top-0 z-50 border-b border-concreto-200 bg-concreto-50">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        sobreFoto
+          ? "border-b border-transparent bg-transparent"
+          : "border-b border-concreto-200 bg-concreto-50"
+      }`}
+    >
       <Contenedor medida="ancho">
         <div className="flex h-20 items-center justify-between gap-6">
           <Link
             href="/"
-            className="flex shrink-0 flex-col leading-none"
+            className="flex shrink-0 items-center"
             aria-label={`${empresa.nombre}, ir al inicio`}
           >
-            <span className="text-2xl font-bold tracking-tight text-marca-900">
-              {empresa.nombreCorto}
-            </span>
-            <span
-              data-medida
-              className="mt-0.5 font-medida text-[0.6rem] uppercase text-concreto-500"
-            >
-              Espinar · Cusco
-            </span>
+            <Logotipo version={sobreFoto ? "blanco" : "color"} alto={44} prioridad />
           </Link>
 
           <nav aria-label="Principal" className="hidden lg:block">
@@ -55,9 +65,13 @@ export function Cabecera() {
                       href={item.href}
                       aria-current={activa ? "page" : undefined}
                       className={`relative flex h-20 items-center text-base font-medium transition-colors ${
-                        activa
-                          ? "text-marca-900"
-                          : "text-concreto-700 hover:text-marca-900"
+                        sobreFoto
+                          ? activa
+                            ? "text-white"
+                            : "text-white/80 hover:text-white"
+                          : activa
+                            ? "text-marca-900"
+                            : "text-concreto-700 hover:text-marca-900"
                       }`}
                     >
                       {item.label}
@@ -79,7 +93,11 @@ export function Cabecera() {
               href={whatsappUrl(contacto.whatsapp, contacto.mensajeWhatsapp)}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden min-h-12 items-center gap-2 rounded-[--radius-muestra] bg-marca-900 px-5 font-semibold text-white transition-colors hover:bg-marca-950 sm:inline-flex"
+              className={`hidden min-h-12 items-center gap-2 rounded-[--radius-muestra] px-5 font-semibold transition-colors sm:inline-flex ${
+                sobreFoto
+                  ? "bg-white text-marca-950 hover:bg-concreto-100"
+                  : "bg-marca-900 text-white hover:bg-marca-950"
+              }`}
             >
               <WhatsappLogo size={20} weight="fill" />
               WhatsApp
@@ -90,7 +108,11 @@ export function Cabecera() {
               onClick={() => setAbierto((v) => !v)}
               aria-expanded={abierto}
               aria-controls="menu-movil"
-              className="inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border border-concreto-300 text-concreto-900 transition-colors hover:bg-concreto-100 lg:hidden"
+              className={`inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border transition-colors lg:hidden ${
+                sobreFoto
+                  ? "border-white/50 text-white hover:bg-white/10"
+                  : "border-concreto-300 text-concreto-900 hover:bg-concreto-100"
+              }`}
             >
               {abierto ? <X size={24} weight="bold" /> : <List size={24} weight="bold" />}
               <span className="sr-only">{abierto ? "Cerrar menú" : "Abrir menú"}</span>

@@ -4,9 +4,11 @@ import { Seccion, TituloSeccion } from "@/components/ui/seccion";
 import { Contenedor } from "@/components/ui/contenedor";
 import { Muestra } from "@/components/ui/muestra";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
+import { HeroSlider } from "@/components/layout/hero-slider";
+import { GaleriaProyectos } from "@/components/secciones/galeria-proyectos";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
-import { imagenes } from "@/content/imagenes";
+import { imagenes, heroInicio } from "@/content/imagenes";
 import {
   propuestaValor,
   servicios,
@@ -26,39 +28,31 @@ export default function Inicio() {
 
   return (
     <main id="contenido" className="flex-1">
-      {/* Primer viewport: el bloque azul carga la región y la fotografía de
-          planta aporta la única prueba real que tenemos. */}
-      <section className="bg-marca-900 text-white">
-        <Contenedor medida="ancho">
-          <div className="grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
-            <div>
-              <h1 className="max-w-[16ch] text-4xl font-bold tracking-[-0.03em] text-balance sm:text-5xl lg:text-6xl">
-                {propuestaValor.titular}
-              </h1>
-              <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-marca-100 text-pretty sm:text-xl">
-                {propuestaValor.subtitular}
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <BotonEnlace href={enlaceWhatsapp} externo variante="clara" tamano="grande">
-                  <WhatsappLogo size={22} weight="fill" />
-                  Pedir cotización
-                </BotonEnlace>
-                <BotonEnlace
-                  href="/servicios"
-                  variante="primaria"
-                  tamano="grande"
-                  className="border-marca-400 bg-transparent hover:bg-marca-950"
-                >
-                  Ver servicios
-                  <ArrowRight size={18} weight="bold" />
-                </BotonEnlace>
-              </div>
-            </div>
-
-            <RanuraImagen ranura={imagenes.plantaPrincipal} prioridad />
-          </div>
-        </Contenedor>
-      </section>
+      {/* Cada diapositiva es una de las tres muestras del catálogo: su
+          fotografía, su identificador y su servicio. */}
+      <HeroSlider
+        titularAccesible={propuestaValor.titular}
+        diapositivas={servicios.map((servicio, i) => ({
+          id: `S-0${i + 1}`,
+          titulo: servicio.nombre,
+          descripcion: servicio.descripcion,
+          imagen: heroInicio[i],
+        }))}
+      >
+        <BotonEnlace href={enlaceWhatsapp} externo variante="clara" tamano="grande">
+          <WhatsappLogo size={22} weight="fill" />
+          Pedir cotización
+        </BotonEnlace>
+        <BotonEnlace
+          href="/servicios"
+          variante="contorno"
+          tamano="grande"
+          className="border-white/60 text-white hover:bg-white/10 active:bg-white/20"
+        >
+          Ver servicios
+          <ArrowRight size={18} weight="bold" />
+        </BotonEnlace>
+      </HeroSlider>
 
       {/* Sectores atendidos: franja horizontal, nunca dentro del primer
           viewport y nunca como muro de logos ajenos. */}
@@ -105,6 +99,10 @@ export default function Inicio() {
           </BotonEnlace>
         </div>
       </Seccion>
+
+      {/* La prueba va antes que el argumento: primero las obras, después el
+          motivo para contratarlas. */}
+      <GaleriaProyectos />
 
       {/* Tercera tríada seguida: cambia de familia de layout a filas anchas
           apiladas, para no encadenar tres rejillas de tres columnas. */}

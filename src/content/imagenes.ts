@@ -24,19 +24,76 @@ export type Ranura = {
   proporcion: "ancha" | "cuadrada" | "alta";
 };
 
+/**
+ * Fotografías del slider de portada.
+ *
+ * Requisitos para el cliente: horizontales, mínimo 2000px de ancho, con el
+ * motivo principal hacia el centro o la derecha. El texto se apoya abajo a la
+ * izquierda, así que esa zona debe quedar despejada.
+ */
+export const heroInicio = [
+  {
+    id: "HERO-01",
+    archivo: "/images/HERO-01.webp",
+    alt: "Planta de concreto de VISENTRAC en operación minera, con sus silos rotulados, camión mixer y cargador frontal",
+    rotulo: "Planta de concreto propia. Capacidad 120 m³/h",
+    proporcion: "ancha",
+  },
+  {
+    id: "HERO-02",
+    archivo: "/images/HERO-02.webp",
+    alt: "Bomba hormigonera de VISENTRAC con la pluma desplegada sobre una edificación de dos niveles en construcción",
+    rotulo: "Bomba hormigonera en obra. Espinar, Cusco",
+    proporcion: "ancha",
+  },
+  {
+    id: "HERO-03",
+    archivo: "/images/HERO-03.webp",
+    alt: "Camión mixer de VISENTRAC junto a la bomba hormigonera abasteciendo el encofrado de un puente en construcción",
+    rotulo: "Mixer y bomba en obra de infraestructura",
+    proporcion: "ancha",
+  },
+] as const satisfies readonly Ranura[];
+
+/** Portada de la página de Servicios. */
+export const heroServicios = {
+  id: "HERO-04",
+  archivo: "/images/HERO-SERVICIOS.webp",
+  alt: "Camión mixer y bomba pluma de VISENTRAC vaciando concreto en una obra con columnas y encofrado armado",
+  rotulo: "Mixer y bomba pluma en vaciado de estructura",
+  proporcion: "ancha",
+} as const satisfies Ranura;
+
+/** Portada de la página de Nosotros. */
+export const heroNosotros = {
+  id: "HERO-05",
+  archivo: "/images/HERO-NOSOTROS.webp",
+  alt: "Equipo de VISENTRAC con casco y chaleco reflectivo frente a la bomba pluma y el camión mixer en una operación minera",
+  rotulo: "Nuestro equipo en operación",
+  proporcion: "ancha",
+} as const satisfies Ranura;
+
+/** Logotipo, en sus dos versiones. */
+export const logo = {
+  color: "/images/logo-visentrac.webp",
+  blanco: "/images/logo-visentrac-blanco.webp",
+  ancho: 520,
+  alto: 347,
+} as const;
+
 export const imagenes = {
   plantaPrincipal: {
     id: "IMG-01",
-    archivo: null,
-    alt: "Planta de concreto premezclado de VISENTRAC con sus silos en operación",
-    rotulo: "Planta de concreto propia. Espinar, Cusco",
-    proporcion: "alta",
+    archivo: "/images/HERO-01.webp",
+    alt: "Planta de concreto de VISENTRAC en operación minera, con sus silos rotulados y camión mixer",
+    rotulo: "Planta de concreto propia. Capacidad 120 m³/h",
+    proporcion: "ancha",
   },
   flotaMixer: {
     id: "IMG-02",
-    archivo: null,
-    alt: "Camión mixer de VISENTRAC descargando concreto en obra",
-    rotulo: "Camión mixer en descarga",
+    archivo: "/images/HERO-03.webp",
+    alt: "Camión mixer de VISENTRAC junto a la bomba hormigonera en obra",
+    rotulo: "Camión mixer y bomba en obra",
     proporcion: "ancha",
   },
   cargadorFrontal: {
@@ -48,9 +105,9 @@ export const imagenes = {
   },
   obraVaciado: {
     id: "IMG-04",
-    archivo: null,
-    alt: "Vaciado de concreto sobre encofrado en obra",
-    rotulo: "Vaciado sobre encofrado",
+    archivo: "/images/HERO-02.webp",
+    alt: "Bomba hormigonera de VISENTRAC desplegando su pluma sobre una estructura en construcción",
+    rotulo: "Bomba hormigonera en obra",
     proporcion: "ancha",
   },
   agregados: {

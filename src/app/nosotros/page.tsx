@@ -4,9 +4,10 @@ import { Seccion, TituloSeccion } from "@/components/ui/seccion";
 import { Contenedor } from "@/components/ui/contenedor";
 import { Muestra } from "@/components/ui/muestra";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
+import { HeroCompleto } from "@/components/layout/hero-completo";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
-import { imagenes } from "@/content/imagenes";
+import { imagenes, heroNosotros } from "@/content/imagenes";
 import {
   empresa,
   hitos,
@@ -28,27 +29,28 @@ export default function Nosotros() {
 
   return (
     <main id="contenido" className="flex-1">
-      <section className="bg-marca-900 py-16 text-white sm:py-20">
-        <Contenedor medida="ancho">
-          <h1 className="max-w-[20ch] text-4xl font-bold tracking-[-0.03em] text-balance sm:text-5xl">
-            Operamos desde {empresa.desde} en Espinar
-          </h1>
-          <p className="mt-5 max-w-[58ch] text-lg leading-relaxed text-marca-100 text-pretty">
-            {empresa.descripcionBreve}
-          </p>
+      <HeroCompleto
+        id="P-03"
+        comoH1
+        titulo={`Operamos desde ${empresa.desde} en Espinar`}
+        bajada={empresa.descripcionBreve}
+        imagenes={[heroNosotros]}
+      />
 
-          <dl className="mt-12 grid max-w-2xl grid-cols-3 gap-6 border-t border-marca-700 pt-8">
+      <section className="border-b border-concreto-200 bg-white">
+        <Contenedor medida="ancho">
+          <dl className="grid grid-cols-3 divide-x divide-concreto-200">
             {estadisticas.map((dato) => (
-              <div key={dato.etiqueta}>
+              <div key={dato.etiqueta} className="py-10 sm:px-8 sm:first:pl-0">
                 <dt className="sr-only">{dato.etiqueta}</dt>
                 <dd>
                   <span
                     data-medida
-                    className="block font-medida text-3xl font-semibold text-senal-400 sm:text-4xl"
+                    className="block font-medida text-3xl font-semibold text-senal-700 sm:text-4xl"
                   >
                     {dato.valor}
                   </span>
-                  <span className="mt-2 block text-sm leading-snug text-marca-100">
+                  <span className="mt-2 block text-sm leading-snug text-concreto-700">
                     {dato.etiqueta}
                   </span>
                 </dd>
@@ -74,7 +76,7 @@ export default function Nosotros() {
             </div>
           </div>
 
-          <RanuraImagen ranura={imagenes.equipoObra} />
+          <RanuraImagen ranura={imagenes.plantaPrincipal} />
         </div>
       </Seccion>
 

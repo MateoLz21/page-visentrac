@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { Seccion, TituloSeccion } from "@/components/ui/seccion";
-import { Contenedor } from "@/components/ui/contenedor";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
+import { HeroCompleto } from "@/components/layout/hero-completo";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
-import { imagenes } from "@/content/imagenes";
+import { imagenes, heroServicios } from "@/content/imagenes";
 import { servicios, flota, ventajas, contacto } from "@/content/empresa";
 
 export const metadata: Metadata = {
@@ -20,17 +20,18 @@ export default function Servicios() {
 
   return (
     <main id="contenido" className="flex-1">
-      <section className="bg-marca-900 py-16 text-white sm:py-20">
-        <Contenedor medida="ancho">
-          <h1 className="max-w-[18ch] text-4xl font-bold tracking-[-0.03em] text-balance sm:text-5xl">
-            Servicios
-          </h1>
-          <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-marca-100 text-pretty">
-            Soluciones integrales para su proyecto: el material, la máquina que
-            lo mueve y el agregado que lo compone.
-          </p>
-        </Contenedor>
-      </section>
+      <HeroCompleto
+        id="P-02"
+        comoH1
+        titulo="Servicios"
+        bajada="Soluciones integrales para su proyecto: el material, la máquina que lo mueve y el agregado que lo compone."
+        imagenes={[heroServicios]}
+      >
+        <BotonEnlace href={enlaceWhatsapp} externo variante="clara" tamano="grande">
+          <WhatsappLogo size={22} weight="fill" />
+          Consultar disponibilidad
+        </BotonEnlace>
+      </HeroCompleto>
 
       {/* S-01: bloque con fotografía */}
       <Seccion medida="ancho">

@@ -213,6 +213,20 @@ tokens y primitivas, revisada con `/impeccable critique`.
 
 ### Fase 3 - Assets
 
+**Parcialmente resuelta el 22 de septiembre.** El cliente entregó logotipo y
+fotografía de operaciones. Lo incorporado:
+
+- Logotipo real en cabecera y pie, en versión blanca o a color según el fondo.
+  Favicon derivado del isotipo sobre el azul de marca.
+- Fotografía real en las portadas de Inicio (tres, en slider), Servicios y
+  Nosotros.
+- Pipeline de optimización en `scripts/optimizar-imagenes.mjs`: **8.3 MB a
+  1.3 MB**, un 84% menos. Elige perfil por el nombre del archivo y nunca toca
+  los originales.
+
+Sigue pendiente: fotografía de agregados clasificados y de cargador en cantera,
+las imágenes de la galería de proyectos, y el logotipo en vectorial.
+
 1. Solicitud formal al cliente de la lista de la seccion 3.
 2. Pipeline de imágenes: recorte a dimensiones exactas, conversión a WebP,
    `sharp` en un script de preproceso, no en build de Next.
