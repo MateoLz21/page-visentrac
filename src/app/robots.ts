@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, indexable } from "@/lib/site";
 
 /* Obligatorio con output: export. Sin esto Next trata la ruta como dinamica y
    el build falla al no poder resolverla en tiempo de compilacion. */
@@ -13,6 +13,11 @@ export const dynamic = "force-static";
  * la ruta sobrevive a un despliegue.
  */
 export default function robots(): MetadataRoute.Robots {
+  /* Previsualización: se cierra el sitio entero a los rastreadores. */
+  if (!indexable) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+
   return {
     rules: {
       userAgent: "*",

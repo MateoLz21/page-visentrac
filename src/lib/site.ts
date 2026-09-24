@@ -17,6 +17,19 @@ export const siteUrl = (
 ).replace(/\/$/, "");
 
 /**
+ * Si los buscadores pueden indexar esta publicación.
+ *
+ * Por defecto **no**. Una previsualización indexada compite en Google contra el
+ * sitio definitivo por las mismas búsquedas, y con el mismo contenido: el
+ * buscador elige una y puede quedarse con la equivocada.
+ *
+ * Se activa poniendo `NEXT_PUBLIC_INDEXABLE=true` únicamente en el despliegue
+ * del dominio real. El build avisa por consola cuando está desactivado, para que
+ * no pase inadvertido el día que se publique de verdad.
+ */
+export const indexable = process.env.NEXT_PUBLIC_INDEXABLE === "true";
+
+/**
  * Endpoint que recibe el formulario de contacto.
  *
  * Se usa Web3Forms y no un script PHP propio por una razón de infraestructura:

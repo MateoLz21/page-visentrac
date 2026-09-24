@@ -1,0 +1,79 @@
+# VISENTRAC SAC - configuracion de Netlify.
+#
+# El sitio se exporta como HTML estatico (output: "export" en next.config.ts) y
+# Netlify publica la carpeta out/ tal cual. No hay funciones ni servidor.
+#
+# Este archivo sustituye a public/.htaccess, que es de Apache y Netlify no lee.
+# El .htaccess se conserva porque el destino final previsto sigue siendo un
+# hosting cPanel; ambos pueden convivir sin estorbarse.
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# ---------------------------------------------------------------------------
+# Cabeceras de seguridad
+# ---------------------------------------------------------------------------
+# Equivalentes a las del .htaccess. HTTPS no aparece aqui porque Netlify lo
+# fuerza por defecto y emite el certificado automaticamente.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# ---------------------------------------------------------------------------
+# Cacheo
+# ---------------------------------------------------------------------------
+# Los archivos de _next/static llevan un hash en el nombre: si cambia el
+# contenido, cambia la ruta. Se pueden cachear indefinidamente.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Las imagenes conservan su nombre al sustituirse, asi que un mes evita que
+# alguien siga viendo la foto antigua durante un año.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# El HTML nunca se cachea de forma agresiva: un cambio de telefono o de precio
+# debe verse en la siguiente visita.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# El brochure pesa varios MB: conviene que el navegador lo reutilice.
+[[headers]]
+  for = "/brochure_visentrac.pdf"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# ---------------------------------------------------------------------------
+# Rutas
+# ---------------------------------------------------------------------------
+# Con trailingSlash activo, Next genera /servicios/index.html. Netlify resuelve
+# /servicios sin barra por su cuenta, pero se declara para que no dependa de su
+# comportamiento por defecto.
+[[redirects]]
+  from = "/servicios"
+  to = "/servicios/"
+  status = 301
+
+[[redirects]]
+  from = "/nosotros"
+  to = "/nosotros/"
+  status = 301
+
+[[redirects]]
+  from = "/contacto"
+  to = "/contacto/"
+  status = 301

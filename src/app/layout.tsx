@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Archivo, Martian_Mono } from "next/font/google";
 import "./globals.css";
 import { empresa, contacto } from "@/content/empresa";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, indexable } from "@/lib/site";
 import { Cabecera } from "@/components/layout/cabecera";
 import { Pie } from "@/components/layout/pie";
 import { WhatsappFlotante } from "@/components/layout/whatsapp-flotante";
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: `${empresa.nombre}: soluciones para construcción y minería`,
     description: empresa.descripcionBreve,
   },
-  robots: { index: true, follow: true },
+  robots: { index: indexable, follow: indexable },
 };
 
 /** Datos estructurados para búsqueda local (Google Business / rich results). */
