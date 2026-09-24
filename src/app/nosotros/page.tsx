@@ -6,6 +6,7 @@ import { Muestra } from "@/components/ui/muestra";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
 import { HeroCompleto } from "@/components/layout/hero-completo";
 import { Anio } from "@/components/ui/anio";
+import { DescargaBrochure } from "@/components/secciones/descarga-brochure";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
 import { imagenes, heroNosotros } from "@/content/imagenes";
@@ -31,7 +32,7 @@ export default function Nosotros() {
   return (
     <main id="contenido" className="flex-1">
       <HeroCompleto
-        id="P-03"
+
         comoH1
         titulo={`Operamos desde ${empresa.desde} en Espinar`}
         bajada={empresa.descripcionBreve}
@@ -89,7 +90,7 @@ export default function Nosotros() {
               Misión
             </h2>
             <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-marca-100">
-              {mision.resumen}
+              {mision.texto}
             </p>
           </div>
 
@@ -99,7 +100,7 @@ export default function Nosotros() {
               Visión
             </h2>
             <p className="mt-5 max-w-[56ch] text-lg leading-relaxed text-marca-100">
-              {vision.resumen}
+              {vision.texto}
             </p>
           </div>
         </div>
@@ -111,10 +112,9 @@ export default function Nosotros() {
         </TituloSeccion>
 
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {valores.map((valor, i) => (
+          {valores.map((valor) => (
             <Muestra
               key={valor.slug}
-              id={`V-0${i + 1}`}
               titulo={valor.nombre}
               destacada={valor.slug === "calidad-comprobada"}
             >
@@ -124,7 +124,9 @@ export default function Nosotros() {
         </div>
       </Seccion>
 
-      <Seccion fondo="tinta" medida="ancho" ritmo="amplio">
+      <DescargaBrochure />
+
+      <Seccion fondo="azul" medida="ancho" ritmo="amplio">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
           <TituloSeccion
             tono="oscuro"

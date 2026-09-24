@@ -91,7 +91,7 @@ export function FondoHero({ imagenes, intervalo = 6500 }: Props) {
               <div className="flex max-w-[34ch] flex-col items-center gap-4 border border-dashed border-marca-400/60 px-8 py-10 text-center">
                 <Camera size={32} weight="light" className="text-marca-300" />
                 <p data-medida className="font-medida text-xs text-marca-200">
-                  {actual.id} · FOTO PENDIENTE
+                  FOTO PENDIENTE
                 </p>
                 <p className="text-sm leading-snug text-marca-100">{actual.alt}</p>
               </div>
@@ -138,10 +138,7 @@ export function FondoHero({ imagenes, intervalo = 6500 }: Props) {
       ) : null}
 
       {/* El rótulo de la foto activa, cosido al pie como el resto de imágenes. */}
-      <p className="absolute inset-x-0 bottom-0 z-20 mx-auto flex w-full max-w-7xl items-baseline gap-3 px-5 pb-5 text-sm text-marca-100 sm:px-8">
-        <span data-medida className="font-medida text-xs text-marca-300">
-          {actual.id}
-        </span>
+      <p className="absolute inset-x-0 bottom-0 z-20 mx-auto w-full max-w-7xl px-5 pb-5 text-sm text-marca-100 sm:px-8">
         {actual.rotulo}
       </p>
     </div>

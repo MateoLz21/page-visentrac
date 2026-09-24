@@ -33,10 +33,22 @@ export type Ranura = {
  */
 export const heroInicio = [
   {
+    /*
+     * IMAGEN GENERADA POR IA, no una fotografía de instalaciones de VISENTRAC.
+     *
+     * Se usa por decisión del cliente interno. Queda anotado porque contradice
+     * el principio que sostiene el resto del sitio: la fotografía es aquí la
+     * única prueba de que la planta y la flota son propias (ver PRODUCT.md,
+     * "Product Principles"). El rótulo evita afirmar que la planta es suya, y
+     * la capacidad de 120 m³/h no se declara sobre esta imagen porque ese dato
+     * procede del letrero de la planta real.
+     *
+     * Sustituir por fotografía real de la planta en cuanto esté disponible.
+     */
     id: "HERO-01",
     archivo: "/images/HERO-01.webp",
-    alt: "Planta de concreto de VISENTRAC en operación minera, con sus silos rotulados, camión mixer y cargador frontal",
-    rotulo: "Planta de concreto propia. Capacidad 120 m³/h",
+    alt: "Planta de procesamiento de agregados operando en altiplano, con cargador frontal alimentando la chancadora",
+    rotulo: "Producción de agregados en altiplano",
     proporcion: "ancha",
   },
   {
@@ -82,9 +94,15 @@ export const logo = {
 } as const;
 
 export const imagenes = {
+  /*
+   * Fotografía real de la planta, con los silos rotulados VISENTRAC y el
+   * letrero de capacidad visible. Vive en su propio archivo y no en HERO-01
+   * porque esa ranura pasó a usar una imagen generada; esta es la que sostiene
+   * la afirmación de planta propia y no debe sustituirse por material generado.
+   */
   plantaPrincipal: {
     id: "IMG-01",
-    archivo: "/images/HERO-01.webp",
+    archivo: "/images/PLANTA-REAL.webp",
     alt: "Planta de concreto de VISENTRAC en operación minera, con sus silos rotulados y camión mixer",
     rotulo: "Planta de concreto propia. Capacidad 120 m³/h",
     proporcion: "ancha",
@@ -110,12 +128,14 @@ export const imagenes = {
     rotulo: "Bomba hormigonera en obra",
     proporcion: "ancha",
   },
+  /* Imagen generada por IA, no fotografía de operaciones reales. Sustituir por
+     material propio cuando esté disponible. */
   agregados: {
     id: "IMG-05",
-    archivo: null,
-    alt: "Rumas de arena, grava y piedra chancada clasificadas",
-    rotulo: "Agregados clasificados",
-    proporcion: "cuadrada",
+    archivo: "/images/AGREGADOS-01.webp",
+    alt: "Cargador frontal y volquete junto a rumas de grava y piedra clasificada en zona de acopio",
+    rotulo: "Acopio de agregados clasificados",
+    proporcion: "ancha",
   },
   equipoObra: {
     id: "IMG-06",

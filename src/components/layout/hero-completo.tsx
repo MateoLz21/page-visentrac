@@ -4,8 +4,6 @@ import { FondoHero } from "./fondo-hero";
 import type { Ranura } from "@/content/imagenes";
 
 type Props = {
-  /** Identificador de muestra del primer viewport: "P-01". */
-  id: string;
   titulo: string;
   bajada: string;
   /** Una fotografía, o varias para que el fondo rote como slider. */
@@ -29,7 +27,6 @@ type Props = {
  * El contenido se renderiza en el servidor; solo el fondo es isla de cliente.
  */
 export function HeroCompleto({
-  id,
   titulo,
   bajada,
   imagenes,
@@ -45,9 +42,6 @@ export function HeroCompleto({
       <Contenedor medida="ancho" className="relative z-10 pt-32 pb-24 sm:pb-28">
         <div className="max-w-[46ch]">
           <span aria-hidden className="block h-0.5 w-24 bg-senal-500" />
-          <p data-medida className="mt-4 font-medida text-xs uppercase text-senal-400">
-            {id}
-          </p>
 
           <Titulo className="mt-5 text-4xl font-bold tracking-[-0.03em] text-balance text-white sm:text-5xl lg:text-6xl">
             {titulo}

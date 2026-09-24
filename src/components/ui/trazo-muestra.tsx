@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
 type Props = {
-  id: string;
   valor?: string;
   oscuro: boolean;
   destacada: boolean;
@@ -20,7 +19,7 @@ type Props = {
  * desaceleración exponencial, y desaparece por completo bajo
  * `prefers-reduced-motion`.
  */
-export function TrazoMuestra({ id, valor, oscuro, destacada }: Props) {
+export function TrazoMuestra({ valor, oscuro, destacada }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const enVista = useInView(ref, { once: true, margin: "-15% 0px" });
   const sinMovimiento = useReducedMotion();
@@ -44,16 +43,7 @@ export function TrazoMuestra({ id, valor, oscuro, destacada }: Props) {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       />
 
-      <div className="mt-3 flex items-baseline justify-between gap-4">
-        <span
-          data-medida
-          className={`font-medida text-xs uppercase ${
-            oscuro ? "text-marca-200" : "text-concreto-600"
-          }`}
-        >
-          {id}
-        </span>
-
+      <div className="mt-3 flex items-baseline justify-end gap-4">
         {valor ? (
           <motion.span
             data-medida

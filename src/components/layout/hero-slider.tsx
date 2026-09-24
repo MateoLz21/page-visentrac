@@ -162,7 +162,7 @@ export function HeroSlider({
               <div className="flex max-w-[34ch] flex-col items-center gap-4 border border-dashed border-marca-400/60 px-8 py-10 text-center">
                 <Camera size={32} weight="light" className="text-marca-300" />
                 <p data-medida className="font-medida text-xs text-marca-200">
-                  {actual.imagen.id} · FOTO PENDIENTE
+                  FOTO PENDIENTE
                 </p>
                 <p className="text-sm leading-snug text-marca-100">{actual.imagen.alt}</p>
               </div>
@@ -191,9 +191,6 @@ export function HeroSlider({
               transition={transicion}
             >
               <span aria-hidden className="block h-0.5 w-24 bg-senal-500" />
-              <p data-medida className="mt-4 font-medida text-xs uppercase text-senal-400">
-                {actual.id}
-              </p>
               <p className="mt-5 text-4xl font-bold tracking-[-0.03em] text-balance text-white sm:text-5xl lg:text-6xl">
                 {actual.titulo}
               </p>
@@ -207,12 +204,7 @@ export function HeroSlider({
         {children ? <div className="mt-10 flex flex-wrap gap-4">{children}</div> : null}
 
         <div className="mt-12 flex items-end justify-between gap-6 border-t border-white/20 pt-4">
-          <p className="flex items-baseline gap-3 text-sm text-marca-100">
-            <span data-medida className="font-medida text-xs text-marca-300">
-              {actual.imagen.id}
-            </span>
-            {actual.imagen.rotulo}
-          </p>
+          <p className="text-sm text-marca-100">{actual.imagen.rotulo}</p>
 
           <div className="flex shrink-0 items-center gap-2">
             <button

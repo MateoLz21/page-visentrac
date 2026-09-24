@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, EnvelopeSimple, MapPin } from "@phosphor-icons/react/dist/ssr";
+import { Phone, EnvelopeSimple, MapPin, FacebookLogo } from "@phosphor-icons/react/dist/ssr";
 import { navegacion, empresa, contacto } from "@/content/empresa";
 import { Contenedor } from "@/components/ui/contenedor";
 import { Anio } from "@/components/ui/anio";
@@ -80,10 +80,30 @@ export function Pie() {
           </div>
         </div>
 
-        <div className="border-t border-concreto-800 py-6">
+        <div className="flex flex-col gap-4 border-t border-concreto-800 py-6 sm:flex-row sm:items-center sm:justify-between">
           <p data-medida className="font-medida text-xs text-concreto-400">
             © <Anio /> {empresa.nombre}. Todos los derechos reservados.
           </p>
+
+          {contacto.redes.length > 0 ? (
+            <ul className="flex items-center gap-2">
+              {contacto.redes.map((red) => (
+                <li key={red.nombre}>
+                  <a
+                    href={red.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border border-concreto-800 text-concreto-300 transition-colors hover:border-concreto-600 hover:text-white"
+                  >
+                    <FacebookLogo size={20} weight="fill" />
+                    <span className="sr-only">
+                      {red.nombre} de {empresa.nombreCorto} (se abre en una pestaña nueva)
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </Contenedor>
     </footer>

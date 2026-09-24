@@ -21,7 +21,7 @@ export default function Servicios() {
   return (
     <main id="contenido" className="flex-1">
       <HeroCompleto
-        id="P-02"
+
         comoH1
         titulo="Servicios"
         bajada="Soluciones integrales para su proyecto: el material, la máquina que lo mueve y el agregado que lo compone."
@@ -38,9 +38,6 @@ export default function Servicios() {
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
           <div>
             <span aria-hidden className="block h-0.5 w-full bg-senal-500" />
-            <p data-medida className="mt-3 font-medida text-xs uppercase text-concreto-600">
-              S-01
-            </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
               {concreto.nombre}
             </h2>
@@ -60,9 +57,6 @@ export default function Servicios() {
       <Seccion fondo="azul" medida="ancho">
         <div className="max-w-[46ch]">
           <span aria-hidden className="block h-0.5 w-full bg-senal-500" />
-          <p data-medida className="mt-3 font-medida text-xs uppercase text-marca-200">
-            S-02
-          </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
             {maquinaria.nombre}
           </h2>
@@ -74,11 +68,8 @@ export default function Servicios() {
         <div className="mt-12 border-t border-marca-700">
           <div
             aria-hidden
-            className="hidden grid-cols-[6rem_1fr_8rem] gap-4 border-b border-marca-700 py-3 sm:grid"
+            className="hidden grid-cols-[1fr_8rem] gap-4 border-b border-marca-700 py-3 sm:grid"
           >
-            <span data-medida className="font-medida text-xs uppercase text-marca-300">
-              Código
-            </span>
             <span data-medida className="font-medida text-xs uppercase text-marca-300">
               Unidad
             </span>
@@ -91,11 +82,8 @@ export default function Servicios() {
             {flota.map((unidad) => (
               <li
                 key={unidad.id}
-                className="grid grid-cols-[4.5rem_1fr_auto] items-baseline gap-4 border-b border-marca-700 py-4 sm:grid-cols-[6rem_1fr_8rem]"
+                className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-marca-700 py-4 sm:grid-cols-[1fr_8rem]"
               >
-                <span data-medida className="font-medida text-sm text-senal-400">
-                  {unidad.id}
-                </span>
                 <span className="text-lg font-medium text-white">{unidad.nombre}</span>
                 <span data-medida className="font-medida text-sm text-marca-200">
                   {unidad.clase}
@@ -118,9 +106,6 @@ export default function Servicios() {
 
           <div className="lg:order-1">
             <span aria-hidden className="block h-0.5 w-full bg-concreto-300" />
-            <p data-medida className="mt-3 font-medida text-xs uppercase text-concreto-600">
-              S-03
-            </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
               {agregados.nombre}
             </h2>
@@ -129,15 +114,12 @@ export default function Servicios() {
             </p>
 
             <ul className="mt-8 border-t border-concreto-300">
-              {agregados.detalle.map((material, i) => (
+              {agregados.detalle.map((material) => (
                 <li
                   key={material}
-                  className="flex items-baseline justify-between gap-6 border-b border-concreto-200 py-4"
+                  className="border-b border-concreto-200 py-4 text-lg font-medium text-concreto-950"
                 >
-                  <span className="text-lg font-medium text-concreto-950">{material}</span>
-                  <span data-medida className="font-medida text-sm text-concreto-600">
-                    AG-0{i + 1}
-                  </span>
+                  {material}
                 </li>
               ))}
             </ul>

@@ -5,7 +5,9 @@ import { Contenedor } from "@/components/ui/contenedor";
 import { Muestra } from "@/components/ui/muestra";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
 import { HeroSlider } from "@/components/layout/hero-slider";
-import { GaleriaProyectos } from "@/components/secciones/galeria-proyectos";
+import { GaleriaOperaciones } from "@/components/secciones/galeria-operaciones";
+import { PorQueElegirnos } from "@/components/secciones/por-que-elegirnos";
+import { DescargaBrochure } from "@/components/secciones/descarga-brochure";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
 import { imagenes, heroInicio } from "@/content/imagenes";
@@ -13,7 +15,6 @@ import {
   propuestaValor,
   servicios,
   sectoresAtendidos,
-  porQueElegirnos,
   contacto,
   cta,
 } from "@/content/empresa";
@@ -82,7 +83,6 @@ export default function Inicio() {
           {servicios.map((servicio, i) => (
             <Muestra
               key={servicio.slug}
-              id={`S-0${i + 1}`}
               titulo={servicio.nombre}
               valor={servicio.detalle.length > 0 ? `${servicio.detalle.length} tipos` : undefined}
               destacada={i === 0}
@@ -102,34 +102,11 @@ export default function Inicio() {
 
       {/* La prueba va antes que el argumento: primero las obras, después el
           motivo para contratarlas. */}
-      <GaleriaProyectos />
+      <GaleriaOperaciones />
 
-      {/* Tercera tríada seguida: cambia de familia de layout a filas anchas
-          apiladas, para no encadenar tres rejillas de tres columnas. */}
-      <Seccion fondo="azul" medida="ancho">
-        <TituloSeccion
-          tono="oscuro"
-          bajada="Producimos nuestro concreto y operamos nuestra propia maquinaria. No revendemos ni subcontratamos."
-        >
-          Por qué trabajar con nosotros
-        </TituloSeccion>
+      <PorQueElegirnos />
 
-        <ul className="mt-12 flex flex-col">
-          {porQueElegirnos.map((razon) => (
-            <li
-              key={razon.titulo}
-              className="grid gap-3 border-t border-marca-700 py-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"
-            >
-              <h3 className="text-2xl font-semibold tracking-tight text-balance text-white">
-                {razon.titulo}
-              </h3>
-              <p className="max-w-[54ch] text-lg leading-relaxed text-marca-100">
-                {razon.descripcion}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </Seccion>
+      <DescargaBrochure />
 
       <Seccion medida="ancho" ritmo="amplio">
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_0.8fr] lg:gap-20">

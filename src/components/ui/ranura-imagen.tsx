@@ -23,7 +23,7 @@ const proporciones = {
  * exactamente la toma que falta, en lugar de disimular con una imagen de banco.
  */
 export function RanuraImagen({ ranura, prioridad = false, className = "" }: Props) {
-  const { archivo, alt, rotulo, id, proporcion } = ranura;
+  const { archivo, alt, rotulo, proporcion } = ranura;
 
   return (
     <figure className={`flex flex-col ${className}`}>
@@ -43,7 +43,7 @@ export function RanuraImagen({ ranura, prioridad = false, className = "" }: Prop
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 border border-dashed border-concreto-400 p-6 text-center">
             <Camera size={28} weight="light" className="text-concreto-600" />
             <p data-medida className="font-medida text-xs text-concreto-600">
-              {id} · FOTO PENDIENTE
+              FOTO PENDIENTE
             </p>
             <p className="max-w-[32ch] text-sm leading-snug text-concreto-700">
               {alt}
@@ -52,11 +52,8 @@ export function RanuraImagen({ ranura, prioridad = false, className = "" }: Prop
         )}
       </div>
 
-      <figcaption className="mt-3 flex items-baseline gap-3 border-t border-concreto-300 pt-2">
-        <span data-medida className="font-medida text-xs text-concreto-600">
-          {id}
-        </span>
-        <span className="text-sm text-concreto-700">{rotulo}</span>
+      <figcaption className="mt-3 border-t border-concreto-300 pt-2 text-sm text-concreto-700">
+        {rotulo}
       </figcaption>
     </figure>
   );

@@ -30,9 +30,17 @@ export const contacto = {
   /** Número del botón flotante de WhatsApp (formato internacional, sin +). */
   whatsapp: "51984886660",
   mensajeWhatsapp: "Hola VISENTRAC, quisiera información sobre sus servicios.",
-  // TODO(cliente): confirmar horario de atención y redes sociales.
-  horario: null as string | null,
-  redes: [] as { nombre: string; url: string }[],
+  /*
+   * El horario de atención se retiró por decisión del cliente interno: publicar
+   * un horario que no siempre se cumple es peor que no publicarlo, y el canal
+   * real de contacto es WhatsApp.
+   */
+  redes: [
+    {
+      nombre: "Facebook",
+      url: "https://www.facebook.com/profile.php?id=100006982695918",
+    },
+  ] as const,
 } as const;
 
 export const propuestaValor = {
@@ -47,40 +55,47 @@ export const propuestaValor = {
   pendienteValidacion: true,
 } as const;
 
+/*
+ * Misión y Visión en su redacción aprobada.
+ *
+ * Reemplazan a los resúmenes que se habían redactado para web: ahora se publica
+ * el texto institucional completo. Se corrigieron erratas de transcripción
+ * (garatice, nuestra operaciones, constribuyendo, innvovacion continuia) sin
+ * alterar el contenido.
+ */
 export const mision = {
-  /** Versión web, resumida. Pendiente de validación del cliente. */
-  resumen:
-    "Somos una empresa líder del sector construcción, comprometida con la innovación, la tecnología y la excelencia en el servicio. Acompañamos a nuestros clientes en todo el proceso constructivo con equipos, servicios y materiales de alta calidad, generando confianza a través de la mejora continua y la capacitación de nuestro equipo, y asumiendo la responsabilidad de mitigar los impactos ambientales de nuestras operaciones.",
-  /** Texto literal del brochure, para referencia. */
-  original:
-    "VISENTRAC es una Empresa líder en el Sector de la Construcción, comprometida con la Innovación, la Tecnología y la Excelencia en el Servicio. Ofrecemos Equipos, Servicios, Herramientas y Materiales de Alta Calidad, apoyando eficientemente a nuestros clientes en todo el proceso constructivo. Buscamos generar un clima de confianza que garantice la plena satisfacción de nuestros clientes, a través de la mejora continua y la capacitación constante de nuestro equipo. Asimismo, asumimos la responsabilidad de mitigar y controlar los impactos ambientales de nuestras operaciones, contribuyendo a un desarrollo sostenible en la industria de la construcción.",
-  pendienteValidacion: true,
+  texto:
+    "VISENTRAC es una empresa líder en el sector de la construcción, comprometida con la innovación, la tecnología y la excelencia en el servicio. Ofrecemos equipos, servicios, herramientas y materiales de alta calidad, apoyando eficientemente a nuestros clientes en todo el proceso constructivo. Buscamos generar un clima de confianza que garantice la plena satisfacción de nuestros clientes, a través de la mejora continua y la capacitación constante de nuestro equipo. Asimismo, asumimos la responsabilidad de mitigar y controlar los impactos ambientales de nuestras operaciones, contribuyendo a un desarrollo sostenible en la industria de la construcción.",
+  pendienteValidacion: false,
 } as const;
 
 export const vision = {
-  resumen:
-    "Ser una empresa líder reconocida por la eficiencia y la calidad de su servicio, con innovación continua en productos y servicios y un equipo capacitado, proyectándonos hacia nuevos horizontes de la demanda local y nacional.",
-  original:
-    "VISENTRAC se proyecta a ser una Empresa líder construyendo un mejor futuro y ser reconocidos del servicio brindado en la eficiencia y la calidad del servicio, basada en innovación continua de productos y servicios con un equipo capacitado comprometidos a brindar el mejor servicio hacia sus clientes, apuntándose a ver nuevos horizontes de la demanda local y nacional del mercado.",
-  pendienteValidacion: true,
+  texto:
+    "VISENTRAC se proyecta a ser una empresa líder construyendo un mejor futuro y ser reconocidos en la eficiencia y la calidad del servicio brindado, basada en innovación continua de productos y servicios, con un equipo capacitado y comprometido a brindar el mejor servicio hacia sus clientes, apuntándose a ver nuevos horizontes de la demanda local y nacional del mercado.",
+  pendienteValidacion: false,
 } as const;
 
-/** Los 4 hitos del bloque "Nosotros" del brochure. */
+/**
+ * Los cuatro puntos del bloque "Nosotros", en su redacción aprobada.
+ *
+ * Se corrigieron erratas de transcripción (liviano, Hormihonera, contreto) sin
+ * alterar el contenido.
+ */
 export const hitos = [
   {
     numero: "01",
     texto:
-      "Desde el 2014 nos dedicamos a proveer servicios para los sectores de minería, construcción y agroindustria.",
+      "Desde el 2014 nos dedicamos a proveer servicios para los sectores de minería, construcción y agroindustriales.",
   },
   {
     numero: "02",
     texto:
-      "Realizamos el alquiler de maquinaria pesada y liviana: camiones mixer, bomba hormigonera, volquete, telehandler, cargador frontal, camioneta, entre otros.",
+      "Realizamos alquiler de maquinaria pesada y liviana como camiones mixer, bomba hormigonera, volquete, telehandler, cargador frontal, camioneta, entre otros.",
   },
   {
     numero: "03",
     texto:
-      "Brindamos servicios de venta de concreto premezclado, movimiento de tierra y venta de agregados.",
+      "Realizamos servicios como venta de concreto premezclado, movimiento de tierra y venta de agregados similares.",
   },
   {
     numero: "04",
@@ -163,24 +178,42 @@ export const ventajas = [
   },
 ] as const;
 
+/**
+ * Por qué trabajar con nosotros.
+ *
+ * Cada razón lleva un dato que la sostiene. Es deliberado: las tres razones del
+ * brochure original (experiencia, seguridad, servicio al cliente) las afirma
+ * igual cualquier competidor de la zona y ninguna se puede verificar, así que
+ * no distinguían nada.
+ *
+ * Los tres datos de aquí sí son comprobables: la capacidad se lee en el letrero
+ * de la planta en la fotografía, los tipos de maquinaria salen de la lista de
+ * flota, y el año de inicio está declarado en el brochure.
+ */
 export const porQueElegirnos = [
   {
-    titulo: "Experiencia y conocimiento",
+    titulo: "Producimos nuestro propio concreto",
     descripcion:
-      "Nuestro equipo cuenta con años de experiencia en construcción y minería.",
-    icono: "experiencia",
+      "La planta es nuestra, así que respondemos por la dosificación y por la hora de entrega sin depender de un tercero que nos abastezca.",
+    dato: "120 m³/h",
+    etiquetaDato: "Capacidad de planta",
+    icono: "planta",
   },
   {
-    titulo: "Compromiso con la seguridad",
+    titulo: "Operamos nuestra propia maquinaria",
     descripcion:
-      "Priorizamos la seguridad de nuestros colaboradores, clientes y del proyecto.",
-    icono: "seguridad",
+      "No subcontratamos equipos. Si su obra necesita mixer, bomba o volquete, coordinamos con nuestra flota y con nuestros operadores.",
+    dato: "6 tipos",
+    etiquetaDato: "Unidades en flota",
+    icono: "flota",
   },
   {
-    titulo: "Servicio al cliente",
+    titulo: "Estamos en Espinar, no de paso",
     descripcion:
-      "Nuestro equipo está disponible para responder sus preguntas y necesidades.",
-    icono: "servicio",
+      "Operamos desde aquí, con el terreno y los accesos conocidos. Eso acorta los tiempos de respuesta frente a un proveedor que viene desde la ciudad.",
+    dato: "2014",
+    etiquetaDato: "Operando desde",
+    icono: "local",
   },
 ] as const;
 
