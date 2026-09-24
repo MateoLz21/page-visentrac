@@ -21,7 +21,6 @@ export default function Servicios() {
   return (
     <main id="contenido" className="flex-1">
       <HeroCompleto
-
         comoH1
         titulo="Servicios"
         bajada="Soluciones integrales para su proyecto: el material, la máquina que lo mueve y el agregado que lo compone."

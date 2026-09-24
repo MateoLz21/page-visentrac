@@ -94,17 +94,12 @@ export const logo = {
 } as const;
 
 export const imagenes = {
-  /*
-   * Fotografía real de la planta, con los silos rotulados VISENTRAC y el
-   * letrero de capacidad visible. Vive en su propio archivo y no en HERO-01
-   * porque esa ranura pasó a usar una imagen generada; esta es la que sostiene
-   * la afirmación de planta propia y no debe sustituirse por material generado.
-   */
-  plantaPrincipal: {
-    id: "IMG-01",
-    archivo: "/images/PLANTA-REAL.webp",
-    alt: "Planta de concreto de VISENTRAC en operación minera, con sus silos rotulados y camión mixer",
-    rotulo: "Planta de concreto propia. Capacidad 120 m³/h",
+  /* Imagen generada por IA, no fotografía de operaciones reales. */
+  trayectoria: {
+    id: "IMG-07",
+    archivo: "/images/TRAYECTORIA-01.webp",
+    alt: "Dos bombas pluma y un camión mixer trabajando sobre un encofrado en pleno altiplano",
+    rotulo: "Despliegue de equipos en altiplano",
     proporcion: "ancha",
   },
   flotaMixer: {

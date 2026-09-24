@@ -32,7 +32,6 @@ export default function Nosotros() {
   return (
     <main id="contenido" className="flex-1">
       <HeroCompleto
-
         comoH1
         titulo={`Operamos desde ${empresa.desde} en Espinar`}
         bajada={empresa.descripcionBreve}
@@ -78,7 +77,7 @@ export default function Nosotros() {
             </div>
           </div>
 
-          <RanuraImagen ranura={imagenes.plantaPrincipal} />
+          <RanuraImagen ranura={imagenes.trayectoria} />
         </div>
       </Seccion>
 
