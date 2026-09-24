@@ -120,7 +120,7 @@ export default function Contacto() {
           />
         ) : (
           <div className="flex h-56 flex-col items-center justify-center gap-3 bg-concreto-100 px-6 text-center">
-            <MapPin size={28} weight="light" className="text-concreto-500" />
+            <MapPin size={28} weight="light" className="text-concreto-600" />
             <p data-medida className="font-medida text-xs text-concreto-600">
               MAPA PENDIENTE
             </p>

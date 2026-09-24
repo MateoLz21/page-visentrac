@@ -2,11 +2,11 @@ import Link from "next/link";
 import { Phone, EnvelopeSimple, MapPin } from "@phosphor-icons/react/dist/ssr";
 import { navegacion, empresa, contacto } from "@/content/empresa";
 import { Contenedor } from "@/components/ui/contenedor";
+import { Anio } from "@/components/ui/anio";
 import { Logotipo } from "@/components/ui/logotipo";
 
 /** Pie común a las cuatro páginas. */
 export function Pie() {
-  const anio = new Date().getFullYear();
 
   return (
     <footer className="bg-concreto-950 text-concreto-100">
@@ -82,7 +82,7 @@ export function Pie() {
 
         <div className="border-t border-concreto-800 py-6">
           <p data-medida className="font-medida text-xs text-concreto-400">
-            © {anio} {empresa.nombre}. Todos los derechos reservados.
+            © <Anio /> {empresa.nombre}. Todos los derechos reservados.
           </p>
         </div>
       </Contenedor>

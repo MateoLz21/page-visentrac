@@ -5,6 +5,7 @@ import { Contenedor } from "@/components/ui/contenedor";
 import { Muestra } from "@/components/ui/muestra";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
 import { HeroCompleto } from "@/components/layout/hero-completo";
+import { Anio } from "@/components/ui/anio";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
 import { imagenes, heroNosotros } from "@/content/imagenes";
@@ -48,7 +49,7 @@ export default function Nosotros() {
                     data-medida
                     className="block font-medida text-3xl font-semibold text-senal-700 sm:text-4xl"
                   >
-                    {dato.valor}
+                    {dato.desde ? <Anio desde={dato.desde} /> : dato.valor}
                   </span>
                   <span className="mt-2 block text-sm leading-snug text-concreto-700">
                     {dato.etiqueta}

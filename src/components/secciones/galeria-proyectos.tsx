@@ -34,7 +34,7 @@ function Ficha({ proyecto, destacado = false }: { proyecto: Proyecto; destacado?
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 border border-dashed border-concreto-400 p-5 text-center">
-            <Camera size={24} weight="light" className="text-concreto-500" />
+            <Camera size={24} weight="light" className="text-concreto-600" />
             <p data-medida className="font-medida text-[0.65rem] text-concreto-600">
               {imagen.id} · PENDIENTE
             </p>
@@ -45,7 +45,7 @@ function Ficha({ proyecto, destacado = false }: { proyecto: Proyecto; destacado?
 
       <div className="flex flex-1 flex-col border-t border-concreto-300 bg-concreto-50 p-4">
         <div className="flex items-baseline justify-between gap-3">
-          <span data-medida className="font-medida text-[0.65rem] uppercase text-concreto-500">
+          <span data-medida className="font-medida text-[0.65rem] uppercase text-concreto-600">
             {id}
           </span>
           {anio ? (

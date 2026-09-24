@@ -5,6 +5,13 @@ primary_target: "src/app/page.tsx"
 related_targets: ["src/app/nosotros/page.tsx","src/app/servicios/page.tsx","src/app/contacto/page.tsx"]
 ---
 
+---
+version: 1
+slug: "src-app-page-tsx"
+primary_target: "src/app/page.tsx"
+related_targets: ["src/app/nosotros/page.tsx","src/app/servicios/page.tsx","src/app/contacto/page.tsx"]
+---
+
 Alcance: las cuatro rutas del sitio institucional de VISENTRAC SAC. Modo Persuade
 en `/`, `/nosotros` y `/servicios`; modo Operate en `/contacto`.
 
@@ -54,9 +61,13 @@ del pliegue, nunca dentro del primer viewport.
 
 FORM: El Rotulado de Ensayo, candidato 5 de la lista ordenada por resonancia,
 asignado por el roll. Seed key 7df25244, ronda de dirección, modo persuade,
-build code-led. Interacción firmada: el valor medido de cada muestra cuenta
-hasta su cifra al entrar en viewport, una sola vez, con desaceleración
-exponencial y respeto por prefers-reduced-motion.
+build code-led. Interacción firmada: el filete de cada muestra se traza de
+izquierda a derecha al entrar en viewport y el valor medido se revela tras el
+trazo, una sola vez, con desaceleración exponencial. Reproduce el gesto de
+rotular la muestra. Se cambió el contador original por razón factual: las cifras
+reales del contenido son 3 y 6, demasiado pequeñas para que un conteo signifique
+algo. En la portada de Inicio la acompaña el acercamiento lento de la fotografía
+del slider. Ambas desaparecen bajo prefers-reduced-motion.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the
 finish review, the verdict, DESIGN.md, and every shipping raster carrying its

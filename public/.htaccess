@@ -1,0 +1,101 @@
+# VISENTRAC SAC - configuracion de Apache para hosting compartido (cPanel).
+#
+# Este archivo se copia tal cual al publicar: sube junto al resto del contenido
+# de out/ a la carpeta public_html.
+#
+# Cada bloque va envuelto en <IfModule> porque en hosting compartido no se sabe
+# que modulos estan activos, y una directiva sin su modulo tumba el sitio
+# entero con un error 500.
+
+# ----------------------------------------------------------------------------
+# HTTPS obligatorio
+# ----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Fuerza HTTPS. Se comprueba tambien la cabecera que anteponen los proxys y
+  # balanceadores del hosting, porque con ellos HTTPS llega vacio y el sitio
+  # entraria en un bucle de redirecciones.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Paginas de error propias
+# ----------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------------
+# Compresion
+# ----------------------------------------------------------------------------
+# Las imagenes ya son WebP y volver a comprimirlas no aporta nada, asi que solo
+# se comprime texto. Importa en zona altoandina con conexion pobre.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE image/svg+xml font/woff2
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Cacheo
+# ----------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Los archivos de _next/static llevan un hash en el nombre: cuando cambia el
+  # contenido cambia la ruta, asi que se pueden cachear para siempre.
+  <FilesMatch "\.(js|css|woff2)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+
+  # Las imagenes no llevan hash: se sustituyen conservando el nombre, asi que
+  # un mes evita que alguien siga viendo la foto antigua durante un año.
+  <FilesMatch "\.(webp|jpg|jpeg|png|svg|ico)$">
+    ExpiresDefault "access plus 1 month"
+  </FilesMatch>
+
+  # El HTML nunca se cachea de forma agresiva: un cambio de telefono o de
+  # horario debe verse en la siguiente visita, no dentro de una semana.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Cabeceras de seguridad
+# ----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # Evita que el navegador adivine el tipo de archivo y ejecute algo que no debe.
+  Header set X-Content-Type-Options "nosniff"
+
+  # Impide que el sitio se incruste en un iframe ajeno.
+  Header set X-Frame-Options "SAMEORIGIN"
+
+  # Limita que informacion de procedencia se envia a terceros.
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # El sitio no usa camara, microfono ni ubicacion: se deniegan de raiz.
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Tipos MIME
+# ----------------------------------------------------------------------------
+# Algunos Apache antiguos de hosting compartido no conocen WebP ni woff2 y los
+# sirven como descarga en lugar de mostrarlos.
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+</IfModule>
+
+# ----------------------------------------------------------------------------
+# Archivos ocultos
+# ----------------------------------------------------------------------------
+# Impide servir este mismo archivo o cualquier otro que empiece por punto.
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

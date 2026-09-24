@@ -48,7 +48,7 @@ export function TrazoMuestra({ id, valor, oscuro, destacada }: Props) {
         <span
           data-medida
           className={`font-medida text-xs uppercase ${
-            oscuro ? "text-marca-200" : "text-concreto-500"
+            oscuro ? "text-marca-200" : "text-concreto-600"
           }`}
         >
           {id}

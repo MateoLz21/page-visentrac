@@ -101,6 +101,7 @@ export function Cabecera() {
             >
               <WhatsappLogo size={20} weight="fill" />
               WhatsApp
+              <span className="sr-only">(se abre en una pestaña nueva)</span>
             </a>
 
             <button
@@ -159,6 +160,7 @@ export function Cabecera() {
               >
                 <WhatsappLogo size={22} weight="fill" />
                 Escríbenos por WhatsApp
+                <span className="sr-only">(se abre en una pestaña nueva)</span>
               </a>
             </nav>
           </Contenedor>

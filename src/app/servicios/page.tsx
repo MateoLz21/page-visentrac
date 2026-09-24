@@ -38,7 +38,7 @@ export default function Servicios() {
         <div className="grid items-start gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
           <div>
             <span aria-hidden className="block h-0.5 w-full bg-senal-500" />
-            <p data-medida className="mt-3 font-medida text-xs uppercase text-concreto-500">
+            <p data-medida className="mt-3 font-medida text-xs uppercase text-concreto-600">
               S-01
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
@@ -118,7 +118,7 @@ export default function Servicios() {
 
           <div className="lg:order-1">
             <span aria-hidden className="block h-0.5 w-full bg-concreto-300" />
-            <p data-medida className="mt-3 font-medida text-xs uppercase text-concreto-500">
+            <p data-medida className="mt-3 font-medida text-xs uppercase text-concreto-600">
               S-03
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
@@ -135,7 +135,7 @@ export default function Servicios() {
                   className="flex items-baseline justify-between gap-6 border-b border-concreto-200 py-4"
                 >
                   <span className="text-lg font-medium text-concreto-950">{material}</span>
-                  <span data-medida className="font-medida text-sm text-concreto-500">
+                  <span data-medida className="font-medida text-sm text-concreto-600">
                     AG-0{i + 1}
                   </span>
                 </li>

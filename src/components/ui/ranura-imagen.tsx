@@ -41,7 +41,7 @@ export function RanuraImagen({ ranura, prioridad = false, className = "" }: Prop
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 border border-dashed border-concreto-400 p-6 text-center">
-            <Camera size={28} weight="light" className="text-concreto-500" />
+            <Camera size={28} weight="light" className="text-concreto-600" />
             <p data-medida className="font-medida text-xs text-concreto-600">
               {id} · FOTO PENDIENTE
             </p>
@@ -53,7 +53,7 @@ export function RanuraImagen({ ranura, prioridad = false, className = "" }: Prop
       </div>
 
       <figcaption className="mt-3 flex items-baseline gap-3 border-t border-concreto-300 pt-2">
-        <span data-medida className="font-medida text-xs text-concreto-500">
+        <span data-medida className="font-medida text-xs text-concreto-600">
           {id}
         </span>
         <span className="text-sm text-concreto-700">{rotulo}</span>

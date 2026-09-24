@@ -272,9 +272,14 @@ export const valores = [
  * (ver docs/plan-desarrollo.md, sección 0).
  */
 export const estadisticas = [
-  { valor: String(new Date().getFullYear() - 2014), etiqueta: "Años operando" },
-  { valor: "3", etiqueta: "Sectores atendidos" },
-  { valor: "6", etiqueta: "Tipos de maquinaria" },
+  /*
+   * `desde` marca la cifra que se recalcula en el navegador. Si se evaluara en
+   * el build, el sitio seguiría diciendo los mismos años de operación hasta la
+   * siguiente compilación, que en un hosting estático puede tardar años.
+   */
+  { desde: 2014, valor: null, etiqueta: "Años operando" },
+  { desde: null, valor: "3", etiqueta: "Sectores atendidos" },
+  { desde: null, valor: "6", etiqueta: "Tipos de maquinaria" },
 ] as const;
 
 /**

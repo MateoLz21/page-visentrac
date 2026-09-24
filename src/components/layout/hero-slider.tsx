@@ -57,8 +57,10 @@ const transicion = { duration: 0.8, ease: [0.16, 1, 0.3, 1] } as const;
  * Las acciones tampoco rotan, para que pedir cotización nunca dependa de qué
  * diapositiva esté visible.
  *
- * El avance automático se detiene con `prefers-reduced-motion`, al pasar el
- * puntero o el foco, y de forma definitiva en cuanto alguien usa los controles.
+ * El avance automático no arranca con `prefers-reduced-motion` y se detiene
+ * mientras alguien navega con el teclado dentro del bloque. No se detiene al
+ * pasar el puntero: esta portada ocupa el viewport entero y el cursor está
+ * encima casi siempre.
  */
 export function HeroSlider({
   titularAccesible,
@@ -68,6 +70,15 @@ export function HeroSlider({
 }: Props) {
   const [indice, setIndice] = useState(0);
   const [tecladoDentro, setTecladoDentro] = useState(false);
+  /*
+   * Solo se anuncia el cambio cuando lo pidió una persona.
+   *
+   * Con `aria-live` siempre activo, un lector de pantalla leería la diapositiva
+   * entera cada siete segundos e interrumpiría cualquier otra lectura de la
+   * página. El anuncio sirve como confirmación de una acción, no como locución
+   * de fondo.
+   */
+  const [anunciar, setAnunciar] = useState(false);
   const sinMovimiento = useReducedMotion();
 
   const total = diapositivas.length;
@@ -91,6 +102,21 @@ export function HeroSlider({
     const id = setInterval(() => setIndice((i) => (i + 1) % total), intervalo);
     return () => clearInterval(id);
   }, [rota, intervalo, total, indice]);
+
+  /*
+   * La siguiente fotografía se descarga mientras la actual está en pantalla.
+   * Sin esto, la imagen empieza a cargar en el instante del cambio y la
+   * transición aparece en blanco sobre una conexión lenta, que es el caso base
+   * de este sitio. Se precarga solo la siguiente, nunca todas: son 250 KB cada
+   * una y cargarlas juntas castigaría la primera visita.
+   */
+  useEffect(() => {
+    if (total < 2) return;
+    const siguiente = diapositivas[(indice + 1) % total].imagen.archivo;
+    if (!siguiente) return;
+    const img = new window.Image();
+    img.src = siguiente;
+  }, [indice, total, diapositivas]);
 
   const actual = diapositivas[indice];
 
@@ -152,7 +178,7 @@ export function HeroSlider({
 
       <Contenedor medida="ancho" className="relative z-10 pt-32 pb-12 sm:pb-16">
         <div
-          aria-live="polite"
+          aria-live={anunciar ? "polite" : "off"}
           aria-atomic
           className="grid min-h-[17rem] max-w-[46ch] content-end sm:min-h-[19rem]"
         >
@@ -192,9 +218,10 @@ export function HeroSlider({
             <button
               type="button"
               onClick={() => {
+                setAnunciar(true);
                 ir(indice - 1);
               }}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
             >
               <CaretLeft size={18} weight="bold" />
               <span className="sr-only">Servicio anterior</span>
@@ -207,9 +234,10 @@ export function HeroSlider({
             <button
               type="button"
               onClick={() => {
+                setAnunciar(true);
                 ir(indice + 1);
               }}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
             >
               <CaretRight size={18} weight="bold" />
               <span className="sr-only">Servicio siguiente</span>

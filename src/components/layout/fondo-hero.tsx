@@ -113,7 +113,7 @@ export function FondoHero({ imagenes, intervalo = 6500 }: Props) {
               setTomadoPorPersona(true);
               ir(indice - 1);
             }}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
           >
             <CaretLeft size={18} weight="bold" />
             <span className="sr-only">Fotografía anterior</span>
@@ -129,7 +129,7 @@ export function FondoHero({ imagenes, intervalo = 6500 }: Props) {
               setTomadoPorPersona(true);
               ir(indice + 1);
             }}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
+            className="inline-flex h-12 w-12 items-center justify-center rounded-[--radius-muestra] border border-white/40 text-white transition-colors hover:bg-white/15"
           >
             <CaretRight size={18} weight="bold" />
             <span className="sr-only">Fotografía siguiente</span>

@@ -2,8 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import { PaperPlaneTilt, CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
-import { Boton } from "@/components/ui/boton";
-import { formEndpoint } from "@/lib/site";
+import { Boton, BotonEnlace } from "@/components/ui/boton";
+import { formEndpoint, web3formsKey, formularioConfigurado, whatsappUrl } from "@/lib/site";
+import { contacto } from "@/content/empresa";
 
 type Estado = "reposo" | "enviando" | "enviado" | "error";
 type Campo = "nombre" | "correo" | "telefono" | "mensaje";
@@ -38,7 +39,7 @@ function validar(datos: Record<Campo, string>): Errores {
 }
 
 const claseCampo =
-  "min-h-12 w-full rounded-[--radius-muestra] border bg-white px-4 py-3 text-base text-concreto-950 placeholder:text-concreto-500 focus:outline-none";
+  "min-h-12 w-full rounded-[--radius-muestra] border bg-white px-4 py-3 text-base text-concreto-950 placeholder:text-concreto-600 focus:outline-none";
 
 export function FormularioContacto() {
   const [estado, setEstado] = useState<Estado>("reposo");
@@ -50,8 +51,10 @@ export function FormularioContacto() {
     const formulario = evento.currentTarget;
     const datosFormulario = new FormData(formulario);
 
-    // Trampa antispam: los robots rellenan todo, las personas no ven este campo.
-    if ((datosFormulario.get("apellido_materno") as string)?.length > 0) {
+    /* Trampa antispam: los robots rellenan todo, las personas no ven el campo.
+       Se llama `botcheck` porque es el nombre que Web3Forms reconoce y filtra
+       también por su lado. Aquí se corta antes de gastar una petición. */
+    if ((datosFormulario.get("botcheck") as string)?.length > 0) {
       setEstado("enviado");
       return;
     }
@@ -77,11 +80,28 @@ export function FormularioContacto() {
     try {
       const respuesta = await fetch(formEndpoint, {
         method: "POST",
-        body: datosFormulario,
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: web3formsKey,
+          /* `replyto` es lo que permite responder al cliente con un solo clic
+             desde la bandeja de VISENTRAC. */
+          replyto: datos.correo,
+          from_name: `${datos.nombre} · Web VISENTRAC`,
+          subject: `Consulta web de ${datos.nombre}`,
+          Nombre: datos.nombre,
+          Correo: datos.correo,
+          Teléfono: datos.telefono,
+          Mensaje: datos.mensaje,
+          botcheck: "",
+        }),
       });
 
-      if (!respuesta.ok) {
-        throw new Error(`El servidor respondió ${respuesta.status}`);
+      const resultado: { success?: boolean; message?: string } = await respuesta
+        .json()
+        .catch(() => ({}));
+
+      if (!respuesta.ok || resultado.success === false) {
+        throw new Error(resultado.message ?? `El servidor respondió ${respuesta.status}`);
       }
 
       setEstado("enviado");
@@ -92,6 +112,32 @@ export function FormularioContacto() {
         "No pudimos enviar su mensaje. Escríbanos por WhatsApp o llámenos directamente.",
       );
     }
+  }
+
+  /*
+   * Sin clave de Web3Forms el envío no puede funcionar. Antes que mostrar un
+   * formulario que falla al pulsar enviar, se dice lo que pasa y se ofrece el
+   * canal que sí está operativo.
+   */
+  if (!formularioConfigurado) {
+    return (
+      <div className="flex flex-col items-start gap-4 border-t-2 border-senal-500 bg-white p-6 sm:p-8">
+        <WarningCircle size={28} weight="light" className="text-senal-700" />
+        <h3 className="text-xl font-semibold tracking-tight text-concreto-950">
+          Formulario en configuración
+        </h3>
+        <p className="max-w-[48ch] text-base leading-relaxed text-concreto-700">
+          Estamos terminando de habilitar el envío de mensajes. Mientras tanto,
+          escríbanos por WhatsApp o llámenos: respondemos igual de rápido.
+        </p>
+        <BotonEnlace
+          href={whatsappUrl(contacto.whatsapp, contacto.mensajeWhatsapp)}
+          externo
+        >
+          Escríbenos por WhatsApp
+        </BotonEnlace>
+      </div>
+    );
   }
 
   if (estado === "enviado") {
@@ -123,8 +169,14 @@ export function FormularioContacto() {
     <form
       onSubmit={manejarEnvio}
       noValidate
-      className="flex flex-col gap-6 border-t-2 border-concreto-300 bg-white p-6 sm:p-8"
+      /* pb extra en móvil: el botón flotante de WhatsApp vive sobre esa esquina
+         y sin este colchón tapa el botón de envío. */
+      className="flex flex-col gap-6 border-t-2 border-concreto-300 bg-white p-6 pb-24 sm:p-8 sm:pb-8"
     >
+      <p className="text-sm text-concreto-700">
+        Todos los campos son obligatorios.
+      </p>
+
       {(["nombre", "correo", "telefono"] as const).map((campo) => (
         <div key={campo} className="flex flex-col gap-2">
           <label htmlFor={campo} className="text-sm font-semibold text-concreto-900">
@@ -133,6 +185,8 @@ export function FormularioContacto() {
           <input
             id={campo}
             name={campo}
+            required
+            aria-required
             type={campo === "correo" ? "email" : campo === "telefono" ? "tel" : "text"}
             autoComplete={
               campo === "correo" ? "email" : campo === "telefono" ? "tel" : "name"
@@ -159,6 +213,8 @@ export function FormularioContacto() {
           id="mensaje"
           name="mensaje"
           rows={5}
+          required
+          aria-required
           placeholder="Volumen de concreto, tipo de maquinaria, fecha y lugar de la obra."
           aria-invalid={errores.mensaje ? true : undefined}
           aria-describedby={errores.mensaje ? "mensaje-error" : undefined}
@@ -175,8 +231,8 @@ export function FormularioContacto() {
 
       {/* Campo trampa: oculto a la vista y a los lectores de pantalla. */}
       <div aria-hidden className="hidden">
-        <label htmlFor="apellido_materno">No complete este campo</label>
-        <input id="apellido_materno" name="apellido_materno" tabIndex={-1} autoComplete="off" />
+        <label htmlFor="botcheck">No complete este campo</label>
+        <input id="botcheck" name="botcheck" tabIndex={-1} autoComplete="off" />
       </div>
 
       {estado === "error" ? (

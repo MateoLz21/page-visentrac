@@ -18,8 +18,8 @@ export function WhatsappFlotante() {
       className="fixed right-4 bottom-4 z-40 inline-flex h-14 items-center gap-2.5 rounded-[--radius-muestra] bg-marca-900 px-5 font-semibold text-white shadow-[var(--shadow-flotante)] transition-colors hover:bg-marca-950 sm:right-6 sm:bottom-6"
     >
       <WhatsappLogo size={24} weight="fill" />
-      <span className="hidden sm:inline">Escríbenos</span>
-      <span className="sr-only sm:hidden">Escríbenos por WhatsApp</span>
+      <span aria-hidden className="hidden sm:inline">Escríbenos</span>
+      <span className="sr-only">Escríbenos por WhatsApp (se abre en una pestaña nueva)</span>
     </a>
   );
 }

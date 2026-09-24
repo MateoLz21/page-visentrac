@@ -56,13 +56,11 @@ export function BotonEnlace({
 
   if (externo) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={clases}
-      >
+      <a href={href} target="_blank" rel="noopener noreferrer" className={clases}>
         {children}
+        {/* Quien no ve la pantalla no percibe que el enlace abre otra pestaña:
+            el aviso se lo da el texto accesible. */}
+        <span className="sr-only">(se abre en una pestaña nueva)</span>
       </a>
     );
   }

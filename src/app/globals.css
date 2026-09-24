@@ -140,6 +140,15 @@
     font-feature-settings: "tnum" 1;
   }
 
+  /*
+   * Movimiento reducido.
+   *
+   * Se eliminan las animaciones que se reproducen solas y el desplazamiento
+   * suave, que es lo que provoca malestar vestibular. NO se tocan las
+   * transiciones de color de botones y enlaces: eso no es movimiento, es la
+   * respuesta que confirma que el control recibió la acción, y matarla deja la
+   * interfaz muda para quien más necesita saber qué está pasando.
+   */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -150,7 +159,15 @@
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+    }
+
+    /* Solo se anulan las transiciones de geometría, nunca las de color. */
+    *,
+    *::before,
+    *::after {
+      transition-property: color, background-color, border-color, outline-color,
+        text-decoration-color, fill, stroke, opacity !important;
+      transition-duration: 150ms !important;
     }
   }
 }
