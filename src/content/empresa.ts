@@ -23,24 +23,36 @@ export const contacto = {
     pais: "Perú",
     completa: "Pasaje Rosas Pata N.º 102, Espinar – Cusco",
 
-    /* Coordenadas confirmadas por el cliente: 14°47'54.7"S 71°24'31.4"W. */
-    latitud: -14.7985201,
-    longitud: -71.4087312,
+    /* Coordenadas de la ficha de Google Business: 14°47'54.7"S 71°24'31.4"W. */
+    latitud: -14.7985218,
+    longitud: -71.408741,
+
+    /*
+     * Identificador de la ficha en Google (CID), extraído del enlace del
+     * negocio. Permite enlazar a la ficha real y no a unas coordenadas sueltas:
+     * el visitante ve el nombre, las fotos y las reseñas de la empresa.
+     */
+    googleCid: "8569624757521102019",
 
     /*
      * Mapa incrustado sin clave de API.
      *
      * La Embed API oficial de Google exige clave, facturación asociada y
-     * restricción por dominio. Para mostrar un punto fijo, esta forma da el
-     * mismo resultado sin ninguna de esas tres dependencias, y no se rompe el
-     * día que caduque una clave que nadie recuerda haber creado.
+     * restricción por dominio. Buscando por nombre y localidad, el mapa muestra
+     * la ficha del negocio con su rótulo, sin ninguna de esas tres dependencias
+     * y sin que se rompa el día que caduque una clave que nadie recuerda haber
+     * creado.
      */
     mapaEmbedUrl:
-      "https://maps.google.com/maps?q=-14.7985201,-71.4087312&z=17&hl=es&output=embed",
+      "https://maps.google.com/maps?q=VISENTRAC+SAC,+Espinar,+Cusco&ll=-14.7985218,-71.408741&z=17&hl=es&output=embed",
 
-    /* Abre la app de mapas del dispositivo con la ruta ya trazada. */
+    /* Abre la app de mapas del dispositivo con la ruta ya trazada hasta la
+       ficha del negocio, no hasta un punto sin nombre. */
     comoLlegarUrl:
-      "https://www.google.com/maps/dir/?api=1&destination=-14.7985201,-71.4087312",
+      "https://www.google.com/maps/dir/?api=1&destination=VISENTRAC+SAC,+Espinar,+Cusco",
+
+    /* Ficha pública del negocio en Google Maps. */
+    fichaGoogleUrl: "https://maps.google.com/?cid=8569624757521102019",
   },
   telefonos: ["984886660", "901789330", "968967089"],
   correos: ["administracion@visentrac.com", "visentrac@hotmail.com"],
@@ -161,7 +173,21 @@ export const servicios = [
       "Suministramos materiales de alta calidad como arena, grava y piedra chancada para sus proyectos.",
     icono: "agregados",
     imagen: "/images/servicios/agregados-construccion.jpg",
-    detalle: ["Arena", "Grava", "Piedra chancada"] as readonly string[],
+    /*
+     * Catálogo con granulometría, no categorías genéricas.
+     *
+     * Sustituye a la lista anterior ("Arena", "Grava", "Piedra chancada"): los
+     * nuevos nombres son esos mismos materiales con su especificación, y
+     * mantener ambos habría duplicado cada uno. Quien compra agregados pide
+     * medidas concretas, no familias.
+     */
+    detalle: [
+      'Piedra chancada 1/2", 3/4" y 1"',
+      "Arena gruesa",
+      "Arena fina",
+      "Piedra base / Over para afirmado",
+      "Cascajo / ripio",
+    ] as readonly string[],
   },
 ] as const;
 
@@ -363,5 +389,6 @@ export const navegacion = [
   { href: "/", label: "Inicio" },
   { href: "/servicios", label: "Servicios" },
   { href: "/nosotros", label: "Nosotros" },
+  { href: "/politicas", label: "Políticas" },
   { href: "/contacto", label: "Contáctenos" },
 ] as const;

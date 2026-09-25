@@ -75,7 +75,14 @@ const jsonLd = {
     latitude: contacto.direccion.latitud,
     longitude: contacto.direccion.longitud,
   },
-  hasMap: contacto.direccion.comoLlegarUrl,
+  hasMap: contacto.direccion.fichaGoogleUrl,
+  /* `sameAs` le dice a Google que este sitio y esos perfiles son la misma
+     empresa. Sin ello, la ficha del negocio y la web viven separadas y no se
+     refuerzan en los resultados locales. */
+  sameAs: [
+    contacto.direccion.fichaGoogleUrl,
+    ...contacto.redes.map((red) => red.url),
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

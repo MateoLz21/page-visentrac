@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Phone, EnvelopeSimple, MapPin } from "@phosphor-icons/react/dist/ssr";
+import {
+  Phone,
+  EnvelopeSimple,
+  MapPin,
+  BookOpen,
+  ShieldCheck,
+} from "@phosphor-icons/react/dist/ssr";
 import { navegacion, empresa, contacto } from "@/content/empresa";
 import { Contenedor } from "@/components/ui/contenedor";
 import { Anio } from "@/components/ui/anio";
@@ -82,9 +88,30 @@ export function Pie() {
         </div>
 
         <div className="flex flex-col gap-4 border-t border-concreto-800 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p data-medida className="font-medida text-xs text-concreto-400">
-            © <Anio /> {empresa.nombre}. Todos los derechos reservados.
-          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+            <p data-medida className="font-medida text-xs text-concreto-400">
+              © <Anio /> {empresa.nombre}. Todos los derechos reservados.
+            </p>
+
+            {/* Obligaciones legales: deben estar accesibles, no destacadas. El
+                pie es donde el visitante las busca cuando las necesita, y donde
+                no compiten con nada cuando no. */}
+            <Link
+              href="/libro-de-reclamaciones"
+              className="inline-flex items-center gap-2 text-xs text-concreto-400 underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              <BookOpen size={16} weight="light" aria-hidden />
+              Libro de Reclamaciones
+            </Link>
+
+            <Link
+              href="/politica-de-privacidad"
+              className="inline-flex items-center gap-2 text-xs text-concreto-400 underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              <ShieldCheck size={16} weight="light" aria-hidden />
+              Política de Privacidad
+            </Link>
+          </div>
 
           <RedesSociales tono="claro" />
         </div>

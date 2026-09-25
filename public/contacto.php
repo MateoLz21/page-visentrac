@@ -31,11 +31,47 @@ error_reporting(E_ALL);
 header('Content-Type: application/json; charset=utf-8');
 
 /** Responde en JSON y termina. */
-function responder(int $codigo, bool $ok, string $mensaje): never
+function responder(int $codigo, bool $ok, string $mensaje, array $extra = []): never
 {
     http_response_code($codigo);
-    echo json_encode(['success' => $ok, 'message' => $mensaje], JSON_UNESCAPED_UNICODE);
+    echo json_encode(
+        array_merge(['success' => $ok, 'message' => $mensaje], $extra),
+        JSON_UNESCAPED_UNICODE
+    );
     exit;
+}
+
+/**
+ * Numero correlativo del Libro de Reclamaciones.
+ *
+ * Indecopi exige numeracion correlativa. Sin base de datos se lleva en un
+ * archivo con bloqueo exclusivo: sin el bloqueo, dos reclamaciones simultaneas
+ * recibirian el mismo numero y el registro dejaria de ser correlativo.
+ */
+function siguienteCorrelativo(): string
+{
+    $ruta = dirname(__DIR__) . '/reclamaciones-correlativo.txt';
+    if (!is_writable(dirname($ruta))) {
+        $ruta = sys_get_temp_dir() . '/visentrac_reclamaciones.txt';
+    }
+
+    $numero = 1;
+    $fp = @fopen($ruta, 'c+');
+
+    if ($fp && flock($fp, LOCK_EX)) {
+        $actual = (int) trim((string) stream_get_contents($fp));
+        $numero = $actual + 1;
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, (string) $numero);
+        fflush($fp);
+        flock($fp, LOCK_UN);
+        fclose($fp);
+    } elseif ($fp) {
+        fclose($fp);
+    }
+
+    return sprintf('LR-%s-%04d', date('Y'), $numero);
 }
 
 /* ---------------------------------------------------------------------------
@@ -117,6 +153,12 @@ if (trim((string) ($_POST['botcheck'] ?? '')) !== '') {
  * ------------------------------------------------------------------------ */
 /* Se repite en servidor toda la validacion del navegador: la del cliente mejora
    la experiencia, nunca protege nada. */
+
+/* El mismo endpoint atiende la consulta de contacto y el Libro de
+   Reclamaciones. Comparten configuracion, credenciales y todas las defensas de
+   arriba; solo cambian los campos, el asunto y el correlativo. */
+$esReclamacion = ($_POST['formulario'] ?? '') === 'reclamacion';
+
 $nombre   = trim((string) ($_POST['nombre'] ?? ''));
 $correo   = trim((string) ($_POST['correo'] ?? ''));
 $telefono = trim((string) ($_POST['telefono'] ?? ''));
@@ -134,8 +176,16 @@ $digitos = preg_replace('/\D/', '', $telefono);
 if (strlen((string) $digitos) < 6 || strlen((string) $digitos) > 15) {
     $errores[] = 'telefono';
 }
-if (mb_strlen($mensaje) < 10 || mb_strlen($mensaje) > 3000) {
+if (!$esReclamacion && (mb_strlen($mensaje) < 10 || mb_strlen($mensaje) > 3000)) {
     $errores[] = 'mensaje';
+}
+
+if ($esReclamacion) {
+    foreach (['documento', 'domicilio', 'descripcion', 'detalle', 'pedido'] as $campo) {
+        if (mb_strlen(trim((string) ($_POST[$campo] ?? ''))) < 3) {
+            $errores[] = $campo;
+        }
+    }
 }
 
 if ($errores) {
@@ -160,6 +210,79 @@ $nombreHtml   = htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8');
 $telefonoHtml = htmlspecialchars($telefono, ENT_QUOTES, 'UTF-8');
 $mensajeHtml  = nl2br(htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'));
 
+/* Cuerpo del correo segun el formulario. */
+if ($esReclamacion) {
+    $correlativo = siguienteCorrelativo();
+
+    $campos = [
+        'Numero de registro' => $correlativo,
+        'Tipo'               => ($_POST['tipo'] ?? '') === 'queja' ? 'QUEJA' : 'RECLAMO',
+        'Fecha'              => date('d/m/Y H:i'),
+        'Nombre'             => $nombre,
+        'Documento'          => strtoupper((string) ($_POST['tipoDocumento'] ?? '')) . ' ' . ($_POST['documento'] ?? ''),
+        'Domicilio'          => (string) ($_POST['domicilio'] ?? ''),
+        'Correo'             => $correo,
+        'Telefono'           => $telefono,
+        'Menor de edad'      => isset($_POST['esMenor']) ? 'Si. Apoderado: ' . ($_POST['apoderado'] ?? '') : 'No',
+        'Bien contratado'    => ucfirst((string) ($_POST['bien'] ?? '')),
+        'Monto reclamado'    => ($_POST['monto'] ?? '') !== '' ? 'S/ ' . $_POST['monto'] : 'No indicado',
+        'Descripcion'        => (string) ($_POST['descripcion'] ?? ''),
+        'Detalle'            => (string) ($_POST['detalle'] ?? ''),
+        'Pedido'             => (string) ($_POST['pedido'] ?? ''),
+    ];
+
+    $filas = '';
+    $texto = "LIBRO DE RECLAMACIONES
+
+";
+    foreach ($campos as $etiqueta => $valor) {
+        $v = htmlspecialchars((string) $valor, ENT_QUOTES, 'UTF-8');
+        $filas .= '<tr><td style="padding:6px 14px 6px 0;vertical-align:top;color:#565f66;white-space:nowrap">'
+            . $etiqueta . '</td><td style="padding:6px 0;vertical-align:top">' . nl2br($v) . '</td></tr>';
+        $texto .= $etiqueta . ': ' . $valor . "
+";
+    }
+
+    $asunto = '[' . $correlativo . '] ' . (($_POST['tipo'] ?? '') === 'queja' ? 'Queja' : 'Reclamo') . ' de ' . $nombre;
+    $cuerpoHtml = '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#14181b;line-height:1.6">'
+        . '<p style="margin:0 0 20px;border-left:3px solid #ff6b00;padding-left:12px"><strong>Libro de Reclamaciones</strong></p>'
+        . '<table style="border-collapse:collapse">' . $filas . '</table>'
+        . '<p style="margin:24px 0 0;font-size:13px;color:#565f66">Plazo legal de respuesta: 15 dias habiles. '
+        . 'Responda a este correo y le llegara directamente a ' . $correoHtml . '.</p></div>';
+    $cuerpoTexto = $texto;
+} else {
+    $correlativo = null;
+    $asunto = 'Consulta web de ' . $nombre;
+    $cuerpoHtml = <<<HTML
+        <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#14181b;line-height:1.6">
+          <p style="margin:0 0 20px;border-left:3px solid #ff6b00;padding-left:12px">
+            <strong>Nueva consulta desde la web</strong>
+          </p>
+          <p style="margin:0 0 8px"><strong>Nombre:</strong> {$nombreHtml}</p>
+          <p style="margin:0 0 8px"><strong>Correo:</strong> {$correoHtml}</p>
+          <p style="margin:0 0 20px"><strong>Telefono:</strong> {$telefonoHtml}</p>
+          <p style="margin:0 0 8px"><strong>Mensaje:</strong></p>
+          <p style="margin:0;padding:14px;background:#f2f4f5">{$mensajeHtml}</p>
+          <p style="margin:24px 0 0;font-size:13px;color:#565f66">
+            Responda a este correo y le llegara directamente a {$correoHtml}.
+          </p>
+        </div>
+        HTML;
+    $cuerpoTexto = "Nueva consulta desde la web
+
+"
+        . "Nombre: {$nombre}
+"
+        . "Correo: {$correo}
+"
+        . "Telefono: {$telefono}
+
+"
+        . "Mensaje:
+{$mensaje}
+";
+}
+
 $mail = new PHPMailer(true);
 
 try {
@@ -180,28 +303,10 @@ try {
     $mail->addAddress($config['destinatario']);
     $mail->addReplyTo($correo, $nombre);
 
-    $mail->Subject = 'Consulta web de ' . $nombre;
+    $mail->Subject = $asunto;
     $mail->isHTML(true);
-    $mail->Body = <<<HTML
-        <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#14181b;line-height:1.6">
-          <p style="margin:0 0 20px;border-left:3px solid #ff6b00;padding-left:12px">
-            <strong>Nueva consulta desde la web</strong>
-          </p>
-          <p style="margin:0 0 8px"><strong>Nombre:</strong> {$nombreHtml}</p>
-          <p style="margin:0 0 8px"><strong>Correo:</strong> {$correoHtml}</p>
-          <p style="margin:0 0 20px"><strong>Telefono:</strong> {$telefonoHtml}</p>
-          <p style="margin:0 0 8px"><strong>Mensaje:</strong></p>
-          <p style="margin:0;padding:14px;background:#f2f4f5">{$mensajeHtml}</p>
-          <p style="margin:24px 0 0;font-size:13px;color:#565f66">
-            Responda a este correo y le llegara directamente a {$correoHtml}.
-          </p>
-        </div>
-        HTML;
-    $mail->AltBody = "Nueva consulta desde la web\n\n"
-        . "Nombre: {$nombre}\n"
-        . "Correo: {$correo}\n"
-        . "Telefono: {$telefono}\n\n"
-        . "Mensaje:\n{$mensaje}\n";
+    $mail->Body = $cuerpoHtml;
+    $mail->AltBody = $cuerpoTexto;
 
     $mail->send();
 } catch (PHPMailerException $e) {
@@ -216,4 +321,4 @@ try {
 $envios[] = time();
 @file_put_contents($archivoLimite, json_encode(array_values($envios)));
 
-responder(200, true, 'Mensaje recibido.');
+responder(200, true, 'Mensaje recibido.', $correlativo ? ['codigo' => $correlativo] : []);
