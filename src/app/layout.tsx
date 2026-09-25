@@ -68,6 +68,14 @@ const jsonLd = {
     addressRegion: contacto.direccion.region,
     addressCountry: "PE",
   },
+  /* Las coordenadas son lo que permite aparecer en las búsquedas de "cerca de
+     mí" y en el mapa de resultados locales, no la dirección escrita. */
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: contacto.direccion.latitud,
+    longitude: contacto.direccion.longitud,
+  },
+  hasMap: contacto.direccion.comoLlegarUrl,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

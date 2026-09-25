@@ -93,6 +93,18 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 # ----------------------------------------------------------------------------
+# Configuracion del formulario
+# ----------------------------------------------------------------------------
+# Contiene la credencial SMTP. Si PHP fallara o se desactivara, el servidor
+# serviria el archivo como texto plano y expondria la contrasena.
+<FilesMatch "^config\.contacto.*\.php$">
+  Require all denied
+</FilesMatch>
+
+# La libreria no se ejecuta por URL, solo se incluye desde contacto.php.
+RedirectMatch 403 ^/lib/phpmailer/.*$
+
+# ----------------------------------------------------------------------------
 # Archivos ocultos
 # ----------------------------------------------------------------------------
 # Impide servir este mismo archivo o cualquier otro que empiece por punto.

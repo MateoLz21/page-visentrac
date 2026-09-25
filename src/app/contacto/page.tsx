@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { WhatsappLogo, Phone, EnvelopeSimple, MapPin } from "@phosphor-icons/react/dist/ssr";
+import {
+  WhatsappLogo,
+  Phone,
+  EnvelopeSimple,
+  MapPin,
+  NavigationArrow,
+} from "@phosphor-icons/react/dist/ssr";
 import { Contenedor } from "@/components/ui/contenedor";
 import { Seccion } from "@/components/ui/seccion";
 import { BotonEnlace } from "@/components/ui/boton";
@@ -94,6 +100,17 @@ export default function Contacto() {
               <p className="mt-4 border-t border-concreto-300 pt-4 text-lg leading-relaxed text-concreto-800">
                 {contacto.direccion.completa}
               </p>
+              {/* En móvil abre la app de mapas con la ruta ya trazada, que es
+                  lo que necesita quien va a venir, no unas coordenadas. */}
+              <BotonEnlace
+                href={contacto.direccion.comoLlegarUrl}
+                externo
+                variante="contorno"
+                className="mt-5"
+              >
+                <NavigationArrow size={18} weight="bold" />
+                Cómo llegar
+              </BotonEnlace>
             </div>
           </div>
 

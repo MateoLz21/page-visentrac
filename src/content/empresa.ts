@@ -22,8 +22,25 @@ export const contacto = {
     region: "Cusco",
     pais: "Perú",
     completa: "Pasaje Rosas Pata N.º 102, Espinar – Cusco",
-    // TODO(cliente): reemplazar por el embed exacto del local en Google Maps.
-    mapaEmbedUrl: "",
+
+    /* Coordenadas confirmadas por el cliente: 14°47'54.7"S 71°24'31.4"W. */
+    latitud: -14.7985201,
+    longitud: -71.4087312,
+
+    /*
+     * Mapa incrustado sin clave de API.
+     *
+     * La Embed API oficial de Google exige clave, facturación asociada y
+     * restricción por dominio. Para mostrar un punto fijo, esta forma da el
+     * mismo resultado sin ninguna de esas tres dependencias, y no se rompe el
+     * día que caduque una clave que nadie recuerda haber creado.
+     */
+    mapaEmbedUrl:
+      "https://maps.google.com/maps?q=-14.7985201,-71.4087312&z=17&hl=es&output=embed",
+
+    /* Abre la app de mapas del dispositivo con la ruta ya trazada. */
+    comoLlegarUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=-14.7985201,-71.4087312",
   },
   telefonos: ["984886660", "901789330", "968967089"],
   correos: ["administracion@visentrac.com", "visentrac@hotmail.com"],
@@ -35,10 +52,17 @@ export const contacto = {
    * un horario que no siempre se cumple es peor que no publicarlo, y el canal
    * real de contacto es WhatsApp.
    */
+  /* `icono` empareja cada red con su logotipo en el componente RedesSociales. */
   redes: [
     {
       nombre: "Facebook",
+      icono: "facebook",
       url: "https://www.facebook.com/profile.php?id=100006982695918",
+    },
+    {
+      nombre: "TikTok",
+      icono: "tiktok",
+      url: "https://www.tiktok.com/@visentrac.sac",
     },
   ] as const,
 } as const;

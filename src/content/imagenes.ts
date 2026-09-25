@@ -90,7 +90,7 @@ export const logo = {
   color: "/images/logo-visentrac.webp",
   blanco: "/images/logo-visentrac-blanco.webp",
   ancho: 520,
-  alto: 347,
+  alto: 260,
 } as const;
 
 export const imagenes = {

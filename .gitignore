@@ -53,3 +53,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Credenciales del formulario. El .example si se versiona.
+public/config.contacto.php
+config.contacto.php
+
+# Video institucional: 29 MB. Se sube por FTP junto al resto de out/.
+# Fuera del repositorio porque git conserva cada version de los binarios para
+# siempre, y una reedicion del video anadiria otros 29 MB permanentes.
+public/visentrac.mp4

@@ -32,26 +32,17 @@ export const indexable = process.env.NEXT_PUBLIC_INDEXABLE === "true";
 /**
  * Endpoint que recibe el formulario de contacto.
  *
- * Se usa Web3Forms y no un script PHP propio por una razón de infraestructura:
- * el dominio está en GoDaddy con el correo en Microsoft 365, y sus registros MX
- * apuntan allí. Crear un buzón en el cPanel del hosting haría que el servidor
- * entregara localmente el correo interno del dominio en lugar de enviarlo a
- * Microsoft, y los mensajes se perderían sin dar error. Web3Forms no toca el
- * DNS ni necesita buzón.
- */
-export const formEndpoint = "https://api.web3forms.com/submit";
-
-/**
- * Clave de acceso de Web3Forms.
+ * Es un script PHP propio servido por el mismo hosting. Envía por SMTP
+ * autenticado de Gmail y no por el servidor de correo del hosting: el dominio
+ * tiene los MX en Microsoft 365, y cualquier buzón creado en cPanel haría que
+ * el servidor entregara localmente el correo interno del dominio en lugar de
+ * mandarlo a Microsoft. Saliendo por Gmail, nada de lo que se configure en el
+ * hosting puede romper la entrega real.
  *
- * Es pública por diseño: viaja al navegador. La protección no está en ocultarla
- * sino en restringir los dominios permitidos desde el panel de Web3Forms, para
- * que nadie pueda usar el formulario desde otro sitio.
+ * Se descartó Web3Forms porque exige confirmar el correo destino desde su
+ * propio buzón, y no hay acceso al corporativo.
  */
-export const web3formsKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? "";
-
-/** Sin clave configurada el formulario no puede enviar y debe decirlo. */
-export const formularioConfigurado = web3formsKey.length > 0;
+export const formEndpoint = "/contacto.php";
 
 /** Enlace de WhatsApp con el mensaje inicial ya preparado. */
 export function whatsappUrl(numero: string, mensaje: string): string {

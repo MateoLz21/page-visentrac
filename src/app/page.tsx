@@ -7,6 +7,7 @@ import { RanuraImagen } from "@/components/ui/ranura-imagen";
 import { HeroSlider } from "@/components/layout/hero-slider";
 import { GaleriaOperaciones } from "@/components/secciones/galeria-operaciones";
 import { PorQueElegirnos } from "@/components/secciones/por-que-elegirnos";
+import { VideoInstitucional } from "@/components/secciones/video-institucional";
 import { DescargaBrochure } from "@/components/secciones/descarga-brochure";
 import { BotonEnlace } from "@/components/ui/boton";
 import { whatsappUrl } from "@/lib/site";
@@ -103,6 +104,8 @@ export default function Inicio() {
       {/* La prueba va antes que el argumento: primero las obras, después el
           motivo para contratarlas. */}
       <GaleriaOperaciones />
+
+      <VideoInstitucional />
 
       <PorQueElegirnos />
 

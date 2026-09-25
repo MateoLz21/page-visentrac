@@ -2,9 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { PaperPlaneTilt, CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
-import { Boton, BotonEnlace } from "@/components/ui/boton";
-import { formEndpoint, web3formsKey, formularioConfigurado, whatsappUrl } from "@/lib/site";
-import { contacto } from "@/content/empresa";
+import { Boton } from "@/components/ui/boton";
+import { formEndpoint } from "@/lib/site";
 
 type Estado = "reposo" | "enviando" | "enviado" | "error";
 type Campo = "nombre" | "correo" | "telefono" | "mensaje";
@@ -52,8 +51,8 @@ export function FormularioContacto() {
     const datosFormulario = new FormData(formulario);
 
     /* Trampa antispam: los robots rellenan todo, las personas no ven el campo.
-       Se llama `botcheck` porque es el nombre que Web3Forms reconoce y filtra
-       también por su lado. Aquí se corta antes de gastar una petición. */
+       Se corta aquí antes de gastar una petición, y el servidor lo comprueba
+       otra vez por su cuenta. */
     if ((datosFormulario.get("botcheck") as string)?.length > 0) {
       setEstado("enviado");
       return;
@@ -78,22 +77,12 @@ export function FormularioContacto() {
     setMensajeError("");
 
     try {
+      /* FormData y no JSON: es lo que PHP lee en $_POST sin configuración
+         adicional. El script del servidor repite toda esta validación. */
       const respuesta = await fetch(formEndpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: web3formsKey,
-          /* `replyto` es lo que permite responder al cliente con un solo clic
-             desde la bandeja de VISENTRAC. */
-          replyto: datos.correo,
-          from_name: `${datos.nombre} · Web VISENTRAC`,
-          subject: `Consulta web de ${datos.nombre}`,
-          Nombre: datos.nombre,
-          Correo: datos.correo,
-          Teléfono: datos.telefono,
-          Mensaje: datos.mensaje,
-          botcheck: "",
-        }),
+        headers: { Accept: "application/json" },
+        body: datosFormulario,
       });
 
       const resultado: { success?: boolean; message?: string } = await respuesta
@@ -112,32 +101,6 @@ export function FormularioContacto() {
         "No pudimos enviar su mensaje. Escríbanos por WhatsApp o llámenos directamente.",
       );
     }
-  }
-
-  /*
-   * Sin clave de Web3Forms el envío no puede funcionar. Antes que mostrar un
-   * formulario que falla al pulsar enviar, se dice lo que pasa y se ofrece el
-   * canal que sí está operativo.
-   */
-  if (!formularioConfigurado) {
-    return (
-      <div className="flex flex-col items-start gap-4 border-t-2 border-senal-500 bg-white p-6 sm:p-8">
-        <WarningCircle size={28} weight="light" className="text-senal-700" />
-        <h3 className="text-xl font-semibold tracking-tight text-concreto-950">
-          Formulario en configuración
-        </h3>
-        <p className="max-w-[48ch] text-base leading-relaxed text-concreto-700">
-          Estamos terminando de habilitar el envío de mensajes. Mientras tanto,
-          escríbanos por WhatsApp o llámenos: respondemos igual de rápido.
-        </p>
-        <BotonEnlace
-          href={whatsappUrl(contacto.whatsapp, contacto.mensajeWhatsapp)}
-          externo
-        >
-          Escríbenos por WhatsApp
-        </BotonEnlace>
-      </div>
-    );
   }
 
   if (estado === "enviado") {

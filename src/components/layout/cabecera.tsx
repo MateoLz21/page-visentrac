@@ -9,6 +9,7 @@ import { navegacion, empresa, contacto } from "@/content/empresa";
 import { whatsappUrl } from "@/lib/site";
 import { Contenedor } from "@/components/ui/contenedor";
 import { Logotipo } from "@/components/ui/logotipo";
+import { RedesSociales } from "@/components/ui/redes-sociales";
 
 /**
  * Cabecera superpuesta al hero.
@@ -52,7 +53,7 @@ export function Cabecera() {
             className="flex shrink-0 items-center"
             aria-label={`${empresa.nombre}, ir al inicio`}
           >
-            <Logotipo version={sobreFoto ? "blanco" : "color"} alto={44} prioridad />
+            <Logotipo version={sobreFoto ? "blanco" : "color"} alto={56} prioridad />
           </Link>
 
           <nav aria-label="Principal" className="hidden lg:block">
@@ -89,6 +90,14 @@ export function Cabecera() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* Las redes ceden el sitio a la navegación en anchos intermedios:
+                WhatsApp es la acción primaria y nunca se esconde. */}
+            <RedesSociales
+              tono={sobreFoto ? "claro" : "oscuro"}
+              tamano="compacto"
+              className="hidden xl:flex"
+            />
+
             <a
               href={whatsappUrl(contacto.whatsapp, contacto.mensajeWhatsapp)}
               target="_blank"
@@ -162,6 +171,8 @@ export function Cabecera() {
                 Escríbenos por WhatsApp
                 <span className="sr-only">(se abre en una pestaña nueva)</span>
               </a>
+
+              <RedesSociales tono="oscuro" className="mt-4 mb-2" />
             </nav>
           </Contenedor>
         </div>
