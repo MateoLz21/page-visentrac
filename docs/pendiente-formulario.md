@@ -100,3 +100,28 @@ eliminan o se conservan por si se usa para una previsualización puntual.
 Lo que sí se conserva del trabajo de esa sesión y sigue siendo útil: el bloqueo
 de indexación por `NEXT_PUBLIC_INDEXABLE`, que evita que una publicación de
 prueba compita en Google contra el sitio definitivo.
+
+---
+
+## Archivos que NO viajan en el repositorio
+
+Al desplegar hay que subirlos a mano. Si se olvidan, el sitio no da error: se
+degrada en silencio, que es peor.
+
+| Archivo local | Destino en el hosting | Si falta |
+|---|---|---|
+| `public/visentrac.mp4` | `public_html/visentrac.mp4` | El vídeo muestra el póster y al pulsar no ocurre nada |
+| `public/config.contacto.php` | Un nivel **por encima** de `public_html`, o dentro junto a `contacto.php` | El formulario responde "El formulario no está configurado" |
+
+El primero queda fuera porque git conserva cada versión de los binarios para
+siempre. El segundo, porque contiene una credencial.
+
+## Estado de la prueba de correo
+
+La autenticación contra `smtp.gmail.com` **está verificada y funciona**. Se envió
+un correo de prueba real a `administracion@visentrac.com` el 24 de septiembre de
+2026, aceptado por Gmail sin rechazos.
+
+Falta confirmar del lado de Microsoft: si llegó, si entró en bandeja de entrada
+o en no deseados, y si al responder el mensaje se dirige al visitante gracias al
+`Reply-To`.
