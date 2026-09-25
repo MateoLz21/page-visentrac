@@ -56,8 +56,14 @@ export const contacto = {
   },
   telefonos: ["984886660", "901789330", "968967089"],
   correos: ["administracion@visentrac.com", "visentrac@hotmail.com"],
-  /** Número del botón flotante de WhatsApp (formato internacional, sin +). */
-  whatsapp: "51984886660",
+  /**
+   * Número al que llegan los mensajes de WhatsApp desde todo el sitio.
+   *
+   * Formato internacional sin el signo +. Un solo lugar: cambiarlo aquí lo
+   * cambia en la cabecera, el menú móvil, las portadas, el botón flotante y
+   * las llamadas a la acción de las cuatro páginas.
+   */
+  whatsapp: "51901789330",
   mensajeWhatsapp: "Hola VISENTRAC, quisiera información sobre sus servicios.",
   /*
    * El horario de atención se retiró por decisión del cliente interno: publicar
