@@ -33,13 +33,33 @@ export const metadata: Metadata = {
     template: `%s | ${empresa.nombreCorto}`,
   },
   description: empresa.descripcionBreve,
+  /*
+   * Google ignora esta etiqueta desde 2009 y no posiciona por ella. Se mantiene
+   * porque otros buscadores y algunos agregadores sí la leen, y porque sirve de
+   * registro de los términos por los que este sitio quiere ser encontrado.
+   *
+   * Lo que de verdad posiciona son estos mismos términos dentro de los títulos,
+   * los encabezados y el texto de las páginas, que es donde están.
+   */
   keywords: [
     "concreto premezclado Espinar",
-    "alquiler de maquinaria Cusco",
-    "agregados de construcción",
-    "camión mixer",
-    "bomba hormigonera",
-    "VISENTRAC",
+    "concreto premezclado Cusco",
+    "planta de concreto Espinar",
+    "alquiler de maquinaria Espinar",
+    "alquiler de camión mixer",
+    "alquiler de bomba hormigonera",
+    "alquiler de volquete Espinar",
+    "telehandler Cusco",
+    "cargador frontal alquiler",
+    "agregados de construcción Espinar",
+    "piedra chancada Espinar",
+    "arena gruesa Cusco",
+    "arena fina Espinar",
+    "over para afirmado",
+    "cascajo ripio Espinar",
+    "movimiento de tierra Espinar",
+    "proveedor minero Espinar",
+    "VISENTRAC SAC",
   ],
   openGraph: {
     type: "website",
@@ -85,6 +105,22 @@ const jsonLd = {
   ],
 };
 
+/**
+ * Identidad del sitio como tal, distinta de la del negocio.
+ *
+ * Ayuda a que Google asocie el dominio con el nombre de la empresa y muestre
+ * "VISENTRAC SAC" en lugar de la URL cruda en los resultados.
+ */
+const jsonLdSitio = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: empresa.nombre,
+  alternateName: empresa.nombreCorto,
+  url: siteUrl,
+  inLanguage: "es-PE",
+  publisher: { "@type": "Organization", name: empresa.nombre },
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -105,6 +141,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSitio) }}
         />
       </body>
     </html>

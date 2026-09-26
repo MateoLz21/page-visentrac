@@ -7,6 +7,7 @@ import {
   NavigationArrow,
 } from "@phosphor-icons/react/dist/ssr";
 import { Contenedor } from "@/components/ui/contenedor";
+import { Migas } from "@/components/migas";
 import { Seccion } from "@/components/ui/seccion";
 import { BotonEnlace } from "@/components/ui/boton";
 import { FormularioContacto } from "@/components/formulario-contacto";
@@ -14,9 +15,9 @@ import { whatsappUrl } from "@/lib/site";
 import { contacto } from "@/content/empresa";
 
 export const metadata: Metadata = {
-  title: "Contáctenos",
+  title: "Contacto: pida su cotización de concreto o maquinaria",
   description:
-    "Escríbanos por WhatsApp, llámenos o déjenos un mensaje. Pasaje Rosas Pata 102, Espinar, Cusco.",
+    "Escríbanos por WhatsApp al 901789330, llámenos o déjenos un mensaje. Pasaje Rosas Pata 102, Espinar, Cusco.",
 };
 
 /**
@@ -29,6 +30,7 @@ export default function Contacto() {
 
   return (
     <main id="contenido" className="flex-1">
+      <Migas pagina="Contáctenos" ruta="/contacto/" />
       {/* Modo Operate: sin primer viewport a pantalla completa. El visitante ya
           decidió consultar y una portada entera lo alejaría de la tarea. El
           padding superior compensa la cabecera fija. */}

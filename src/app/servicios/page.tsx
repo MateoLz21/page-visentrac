@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { Seccion, TituloSeccion } from "@/components/ui/seccion";
+import { Migas } from "@/components/migas";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
 import { HeroCompleto } from "@/components/layout/hero-completo";
 import { BotonEnlace } from "@/components/ui/boton";
@@ -9,9 +10,9 @@ import { imagenes, heroServicios } from "@/content/imagenes";
 import { servicios, flota, ventajas, contacto } from "@/content/empresa";
 
 export const metadata: Metadata = {
-  title: "Servicios",
+  title: "Concreto premezclado, alquiler de maquinaria y agregados en Espinar",
   description:
-    "Concreto premezclado, alquiler de maquinaria pesada y liviana, y venta de agregados de construcción en Espinar, Cusco.",
+    "Venta de concreto premezclado, alquiler de camión mixer, bomba hormigonera, volquete, telehandler y cargador frontal. Piedra chancada, arena gruesa y fina en Espinar, Cusco.",
 };
 
 export default function Servicios() {
@@ -20,6 +21,7 @@ export default function Servicios() {
 
   return (
     <main id="contenido" className="flex-1">
+      <Migas pagina="Servicios" ruta="/servicios/" />
       <HeroCompleto
         comoH1
         titulo="Servicios"

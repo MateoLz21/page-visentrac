@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Seccion } from "@/components/ui/seccion";
 import { Contenedor } from "@/components/ui/contenedor";
+import { Migas } from "@/components/migas";
 import { VisorPoliticas } from "@/components/secciones/visor-politicas";
 import { resolverPoliticas } from "@/lib/politicas";
 
 export const metadata: Metadata = {
-  title: "Políticas de la empresa",
+  title: "Políticas de gestión ambiental, seguridad y salud ocupacional",
   description:
-    "Políticas de gestión ambiental y responsabilidad social, seguridad y salud ocupacional, y calidad de VISENTRAC SAC.",
+    "Políticas de gestión ambiental y responsabilidad social, y de seguridad y salud ocupacional de VISENTRAC SAC, en documentos firmados por la gerencia.",
 };
 
 /**
@@ -23,6 +24,7 @@ export default function Politicas() {
 
   return (
     <main id="contenido" className="flex-1">
+      <Migas pagina="Políticas" ruta="/politicas/" />
       <section className="bg-marca-900 pt-36 pb-16 text-white sm:pt-40 sm:pb-20">
         <Contenedor medida="ancho">
           <h1 className="max-w-[20ch] text-4xl font-bold tracking-[-0.03em] text-balance sm:text-5xl">

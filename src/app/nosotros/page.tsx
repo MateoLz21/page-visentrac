@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { Seccion, TituloSeccion } from "@/components/ui/seccion";
 import { Contenedor } from "@/components/ui/contenedor";
+import { Migas } from "@/components/migas";
 import { Muestra } from "@/components/ui/muestra";
 import { RanuraImagen } from "@/components/ui/ranura-imagen";
 import { HeroCompleto } from "@/components/layout/hero-completo";
@@ -21,7 +22,7 @@ import {
 } from "@/content/empresa";
 
 export const metadata: Metadata = {
-  title: "Nosotros",
+  title: "Nosotros: planta y flota propias en Espinar desde 2014",
   description:
     "VISENTRAC SAC opera desde 2014 en Espinar, Cusco, con planta de concreto y flota propias, atendiendo construcción, minería y agroindustria.",
 };
@@ -31,6 +32,7 @@ export default function Nosotros() {
 
   return (
     <main id="contenido" className="flex-1">
+      <Migas pagina="Nosotros" ruta="/nosotros/" />
       <HeroCompleto
         comoH1
         titulo={`Operamos desde ${empresa.desde} en Espinar`}
